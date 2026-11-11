@@ -1,0 +1,2478 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+  <meta name="robots" content="noindex" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Nova VPN</title>
+  <style>
+    :root {
+      --bg: #070b14;
+      --bg-elevated: rgba(15, 23, 42, 0.78);
+      --bg-card-solid: #0f172a;
+      --bg-subtle: rgba(148, 163, 184, 0.08);
+      --bg-subtle-hover: rgba(148, 163, 184, 0.14);
+      --border: rgba(148, 163, 184, 0.16);
+      --border-strong: rgba(148, 163, 184, 0.28);
+      --text: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent: #06b6d4;
+      --accent-2: #10b981;
+      --accent-soft: rgba(6, 182, 212, 0.14);
+      --accent-glow: rgba(6, 182, 212, 0.28);
+      --ok: #10b981;
+      --ok-soft: rgba(16, 185, 129, 0.15);
+      --warn: #f59e0b;
+      --warn-soft: rgba(245, 158, 11, 0.15);
+      --danger: #f43f5e;
+      --danger-soft: rgba(244, 63, 94, 0.15);
+      --purple: #a855f7;
+      --purple-soft: rgba(168, 85, 247, 0.15);
+      --shadow-lg: 0 24px 64px -16px rgba(0, 0, 0, 0.55);
+      --shadow-sm: 0 4px 16px -4px rgba(0, 0, 0, 0.35);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 9px;
+      --font-sans: 'Vazirmatn', 'IRANSansX', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Tahoma, sans-serif;
+      --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+    }
+
+    [data-theme="light"] {
+      --bg: #f1f5f9;
+      --bg-elevated: rgba(255, 255, 255, 0.88);
+      --bg-card-solid: #ffffff;
+      --bg-subtle: rgba(15, 23, 42, 0.045);
+      --bg-subtle-hover: rgba(15, 23, 42, 0.085);
+      --border: rgba(15, 23, 42, 0.09);
+      --border-strong: rgba(15, 23, 42, 0.18);
+      --text: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent: #0284c7;
+      --accent-2: #059669;
+      --accent-soft: rgba(2, 132, 199, 0.11);
+      --accent-glow: rgba(2, 132, 199, 0.2);
+      --ok: #059669;
+      --ok-soft: rgba(5, 150, 105, 0.12);
+      --warn: #d97706;
+      --warn-soft: rgba(217, 119, 6, 0.12);
+      --danger: #e11d48;
+      --danger-soft: rgba(225, 29, 72, 0.11);
+      --purple: #9333ea;
+      --purple-soft: rgba(147, 51, 234, 0.11);
+      --shadow-lg: 0 24px 60px -18px rgba(15, 23, 42, 0.12);
+      --shadow-sm: 0 4px 16px -4px rgba(15, 23, 42, 0.07);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      font-variant-numeric: tabular-nums;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Mesh Backdrop */
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        radial-gradient(640px 420px at 12% -5%, rgba(6, 182, 212, 0.16), transparent 65%),
+        radial-gradient(580px 380px at 88% 8%, rgba(16, 185, 129, 0.13), transparent 65%),
+        radial-gradient(500px 400px at 50% 100%, rgba(99, 102, 241, 0.09), transparent 70%);
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(148, 163, 184, 0.16) 1px, transparent 1px);
+      background-size: 26px 26px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent 75%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent 75%);
+    }
+
+    [data-theme="light"] .bg-grid {
+      background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 28px clamp(50px, 4.5vw, 90px) 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Glass Card */
+    .card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-lg);
+      padding: 24px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+      pointer-events: none;
+    }
+
+    /* Header */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1 1 240px;
+    }
+
+    .brand-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px -6px var(--accent-glow);
+    }
+
+    .brand-meta {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .brand-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 750;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .brand-sub {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .sid-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      max-width: 240px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .sid-pill:hover {
+      border-color: var(--border-strong);
+      color: var(--text);
+      background: var(--bg-subtle-hover);
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Live indicator badge */
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 650;
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .live-pill.is-online {
+      background: var(--ok-soft);
+      border-color: rgba(16, 185, 129, 0.32);
+      color: var(--ok);
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .live-pill.is-online .live-dot {
+      background: var(--ok);
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.65);
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+      70% { box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Icon & Pill Buttons */
+    .btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 8px 13px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: transform 0.12s ease, background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: var(--bg-subtle-hover);
+      border-color: var(--border-strong);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-icon {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border-radius: 11px;
+    }
+
+    .btn-sm {
+      padding: 6px 11px;
+      font-size: 0.79rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 8px 22px -6px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      filter: brightness(1.06);
+      border-color: transparent;
+    }
+
+    .btn-ghost {
+      background: transparent;
+    }
+
+    .is-spinning svg {
+      animation: spin 0.75s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Announcement Banner */
+    .announce {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 13px 16px;
+      border-radius: var(--radius-lg);
+      background: var(--accent-soft);
+      border: 1px solid rgba(6, 182, 212, 0.28);
+      color: var(--text);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .announce-icon {
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .announce-text {
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 0;
+      flex: 1;
+    }
+
+    /* Hero Section */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 204px 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .ring-wrap {
+      position: relative;
+      width: 176px;
+      height: 176px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ring-svg {
+      width: 176px;
+      height: 176px;
+      transform: rotate(-90deg);
+    }
+
+    .ring-track {
+      fill: none;
+      stroke: var(--bg-subtle-hover);
+      stroke-width: 11;
+    }
+
+    .ring-fill {
+      fill: none;
+      stroke-width: 11;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.7s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.3s ease;
+    }
+
+    .ring-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px;
+    }
+
+    .ring-pct {
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .ring-lbl {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .hero-info {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .hero-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .badge-ok { background: var(--ok-soft); color: var(--ok); }
+    .badge-warn { background: var(--warn-soft); color: var(--warn); }
+    .badge-danger { background: var(--danger-soft); color: var(--danger); }
+    .badge-purple { background: var(--purple-soft); color: var(--purple); }
+    .badge-neutral { background: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border); }
+
+    .hero-metric {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-metric-kicker {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .hero-metric-val {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .hero-num {
+      font-size: 2.35rem;
+      font-weight: 850;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-unit {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stat-box {
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .stat-k {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .stat-v {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Quick Action Bar */
+    .quick-dock {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .quick-url-wrap {
+      flex: 1 1 260px;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+    }
+
+    .quick-url-text {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .quick-btns {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Tabs */
+    .tabs-bar {
+      display: flex;
+      gap: 6px;
+      padding: 5px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      flex: 1 1 0;
+      min-width: fit-content;
+      border: 0;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 0.87rem;
+      font-weight: 650;
+      padding: 10px 14px;
+      border-radius: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text);
+    }
+
+    .tab-btn.is-active {
+      background: var(--bg-card-solid);
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tab-count {
+      font-size: 0.72rem;
+      font-weight: 750;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fadeUp 0.2s ease;
+    }
+
+    .tab-panel.is-active {
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Platform Switcher */
+    .platform-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .plat-btn {
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 650;
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.15s ease;
+    }
+
+    .plat-btn:hover {
+      color: var(--text);
+      border-color: var(--border-strong);
+    }
+
+    .plat-btn.is-active {
+      background: var(--accent-soft);
+      border-color: rgba(6, 182, 212, 0.4);
+      color: var(--accent);
+    }
+
+    /* App Cards Grid */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .apps-grid.is-4col {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .app-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      transition: border-color 0.16s ease, background 0.16s ease, transform 0.14s ease;
+    }
+
+    .app-card:hover {
+      border-color: var(--border-strong);
+      background: var(--bg-subtle-hover);
+      transform: translateY(-1px);
+    }
+
+    .app-ico {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .app-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .app-name {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .app-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app-tip {
+      margin-top: 14px;
+      padding: 11px 14px;
+      border-radius: var(--radius-md);
+      background: var(--bg-subtle);
+      border: 1px dashed var(--border-strong);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    /* Subscription Links & Config Rows */
+    .links-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .links-layout .qr-inline-card {
+      margin-top: 0;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .rows-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #configs-list.rows-stack {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .link-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      min-width: 0;
+      transition: border-color 0.15s ease;
+    }
+
+    .link-row:hover {
+      border-color: var(--border-strong);
+    }
+
+    .link-main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .link-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .link-title:hover {
+      color: var(--accent);
+    }
+
+    .link-sub {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .link-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .tag-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    .tag {
+      font-size: 0.69rem;
+      font-weight: 750;
+      padding: 3px 8px;
+      border-radius: 7px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tag-blue { background: rgba(59, 130, 246, 0.16); color: #60a5fa; }
+    .tag-cyan { background: rgba(6, 182, 212, 0.16); color: #22d3ee; }
+    .tag-green { background: var(--ok-soft); color: var(--ok); }
+    .tag-purple { background: var(--purple-soft); color: #c084fc; }
+    .tag-amber { background: var(--warn-soft); color: #fbbf24; }
+    .tag-rose { background: var(--danger-soft); color: #fb7185; }
+
+    [data-theme="light"] .tag-blue { color: #2563eb; }
+    [data-theme="light"] .tag-cyan { color: #0891b2; }
+    [data-theme="light"] .tag-purple { color: #7e22ce; }
+    [data-theme="light"] .tag-amber { color: #b45309; }
+    [data-theme="light"] .tag-rose { color: #be123c; }
+
+    .qr-inline-card {
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .qr-frame {
+      background: #ffffff;
+      padding: 10px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+      flex-shrink: 0;
+    }
+
+    .qr-frame svg {
+      display: block;
+    }
+
+    .configs-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .search-box {
+      flex: 1 1 210px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-box svg {
+      position: absolute;
+      inset-inline-start: 12px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 9px 12px;
+      padding-inline-start: 36px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.84rem;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 4px 6px;
+    }
+
+    .footer-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(2, 6, 23, 0.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal-backdrop.is-open {
+      display: flex;
+      animation: fadeUp 0.16s ease;
+    }
+
+    .modal-dialog {
+      width: 100%;
+      max-width: 390px;
+      background: var(--bg-card-solid);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+    }
+
+    .modal-head {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .modal-title {
+      font-size: 0.98rem;
+      font-weight: 750;
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .modal-url {
+      width: 100%;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      word-break: break-all;
+      max-height: 78px;
+      overflow-y: auto;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      z-index: 60;
+      background: #0f172a;
+      color: #f8fafc;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    [data-theme="light"] .toast {
+      background: #0f172a;
+      color: #ffffff;
+    }
+
+    .toast.is-show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 28px 14px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 1479px) {
+      .stats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .apps-grid.is-4col {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      #configs-list.rows-stack {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 960px) {
+      .shell {
+        padding: 22px 24px 48px;
+      }
+
+      .apps-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .links-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .links-layout .qr-inline-card {
+        flex-direction: row;
+        text-align: start;
+      }
+
+      #configs-list.rows-stack {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .shell {
+        padding: 18px 14px 44px;
+        gap: 14px;
+      }
+
+      .card {
+        padding: 16px;
+        border-radius: 20px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        text-align: center;
+      }
+
+      .hero-badges,
+      .hero-metric-val {
+        justify-content: center;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .apps-grid,
+      .apps-grid.is-4col {
+        grid-template-columns: 1fr;
+      }
+
+      .link-row {
+        flex-wrap: wrap;
+      }
+
+      .link-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <main class="shell" id="app">
+    <noscript><div class="card">Demo needs JavaScript.</div></noscript>
+  </main>
+
+  <div class="modal-backdrop" id="qr-modal" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title">
+    <div class="modal-dialog">
+      <div class="modal-head">
+        <h3 class="modal-title" id="qr-modal-title">QR Code</h3>
+        <button class="btn btn-icon btn-sm" type="button" id="qr-modal-close" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="qr-frame" id="qr-modal-svg"></div>
+      <div class="modal-url" dir="ltr" id="qr-modal-url"></div>
+      <button class="btn btn-primary" type="button" id="qr-modal-copy" style="width:100%"></button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    window.__SUB_DATA__ = {"sId": "demo-7f3a9c", "enabled": true, "isOnline": true, "download": "15.2 GB", "upload": "3.2 GB", "total": "50 GB", "used": "18.4 GB", "remained": "31.6 GB", "expire": 0, "lastOnline": 0, "downloadByte": 16320875724, "uploadByte": 3435973837, "totalByte": 53687091200, "subUrl": "https://sub.example.com/sub/demo-7f3a9c", "subJsonUrl": "https://sub.example.com/json/demo-7f3a9c", "subClashUrl": "https://sub.example.com/clash/demo-7f3a9c", "subTitle": "Nova VPN", "subSupportUrl": "https://example.com/support", "subUpdates": 12, "links": ["vless://3f1c2a8e-5b7d-4e9a-a1c4-7d2e9b0f6a13@de1.example.com:443?type=tcp&security=reality&sni=www.example.com&fp=chrome&pbk=demo&sid=6a#🇩🇪 Germany · Reality", "vless://3f1c2a8e-5b7d-4e9a-a1c4-7d2e9b0f6a13@cdn.example.com:443?type=ws&security=tls&host=cdn.example.com&path=%2Fws#🌐 CDN · WebSocket", "vless://3f1c2a8e-5b7d-4e9a-a1c4-7d2e9b0f6a13@uk1.example.com:443?type=xhttp&security=tls&sni=uk1.example.com#🇬🇧 UK · XHTTP", "vmess://eyJ2IjogIjIiLCAicHMiOiAi8J+Hs/Cfh7EgTmV0aGVybGFuZHMgwrcgZ1JQQyIsICJhZGQiOiAibmwxLmV4YW1wbGUuY29tIiwgInBvcnQiOiAiODQ0MyIsICJpZCI6ICIzZjFjMmE4ZS01YjdkLTRlOWEtYTFjNC03ZDJlOWIwZjZhMTMiLCAibmV0IjogImdycGMiLCAidHlwZSI6ICJub25lIiwgInRscyI6ICJ0bHMiLCAic25pIjogIm5sMS5leGFtcGxlLmNvbSJ9", "trojan://demo-pass@fi1.example.com:443?type=tcp&security=tls&sni=fi1.example.com#🇫🇮 Finland · Trojan", "hysteria2://demo-pass@tr1.example.com:8443?sni=tr1.example.com#🇹🇷 Turkey · Hysteria2", "ss://MjAyMi1ibGFrZTMtYWVzLTEyOC1nY206ZGVtby1wYXNz@us1.example.com:8388#🇺🇸 USA · Shadowsocks"], "emails": ["demo-user"], "datepicker": "gregorian", "announce": "سرور جدید ترکیه اضافه شد 🎉  ·  New Turkey server added"};
+(function () {
+  var d = window.__SUB_DATA__, now = Date.now();
+  d.expire = Math.floor(now / 1000) + 23 * 86400;
+  d.lastOnline = now - 4 * 60000;
+  var q = new URLSearchParams(location.search);
+  try {
+    if (q.get("lang")) localStorage.setItem("xui_custom_sub_lang", q.get("lang"));
+    if (q.get("theme")) localStorage.setItem("xui_custom_sub_theme", q.get("theme"));
+  } catch (e) {}
+  window.fetch = function (url) {
+    if (/hwid-status/.test(String(url))) {
+      return Promise.resolve(new Response(JSON.stringify({ active: true, registered: 2, limit: 3, full: false }),
+        { headers: { "Content-Type": "application/json" } }));
+    }
+    return Promise.resolve(new Response("", { status: 404 }));
+  };
+})();
+
+  </script>
+  <script>
+    (function () {
+      "use strict";
+
+      /* =========================================================================
+         1. Compact ISO/IEC 18004 Pure-JS QR Encoder (Byte Mode, ECC Level M)
+         ========================================================================= */
+      var QR = (function () {
+        var ECC_PER_BLOCK = [-1, 10, 16, 26, 18, 24, 16, 18, 22, 22, 26, 30, 22, 22, 24, 24, 28, 28, 26, 26, 26, 26, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28];
+        var NUM_BLOCKS = [-1, 1, 1, 1, 2, 2, 4, 4, 4, 5, 5, 5, 8, 9, 9, 10, 10, 11, 13, 14, 16, 17, 17, 18, 20, 21, 23, 25, 26, 28, 29, 31, 33, 35, 37, 38, 40, 43, 45, 47, 49];
+
+        function rawDataModules(ver) {
+          var res = (16 * ver + 128) * ver + 64;
+          if (ver >= 2) {
+            var n = Math.floor(ver / 7) + 2;
+            res -= (25 * n - 10) * n - 55;
+            if (ver >= 7) res -= 36;
+          }
+          return res;
+        }
+
+        function dataCapBytes(ver) {
+          return Math.floor(rawDataModules(ver) / 8) - ECC_PER_BLOCK[ver] * NUM_BLOCKS[ver];
+        }
+
+        function alignCoords(ver) {
+          if (ver === 1) return [];
+          var n = Math.floor(ver / 7) + 2;
+          var step = ver === 32 ? 26 : Math.ceil((ver * 4 + 4) / (n * 2 - 2)) * 2;
+          var out = [6];
+          for (var pos = ver * 4 + 10; out.length < n; pos -= step) out.splice(1, 0, pos);
+          return out;
+        }
+
+        function gfMul(x, y) {
+          var z = 0;
+          for (var i = 7; i >= 0; i--) {
+            z = (z << 1) ^ ((z >>> 7) * 0x11d);
+            z ^= ((y >>> i) & 1) * x;
+          }
+          return z;
+        }
+
+        function rsDivisor(deg) {
+          var res = new Uint8Array(deg);
+          res[deg - 1] = 1;
+          var root = 1;
+          for (var i = 0; i < deg; i++) {
+            for (var j = 0; j < deg; j++) {
+              res[j] = gfMul(res[j], root);
+              if (j + 1 < deg) res[j] ^= res[j + 1];
+            }
+            root = gfMul(root, 0x02);
+          }
+          return res;
+        }
+
+        function rsRemainder(data, divisor) {
+          var res = new Uint8Array(divisor.length);
+          for (var i = 0; i < data.length; i++) {
+            var factor = data[i] ^ res[0];
+            for (var j = 0; j < res.length - 1; j++) res[j] = res[j + 1];
+            res[res.length - 1] = 0;
+            for (var k = 0; k < res.length; k++) res[k] ^= gfMul(divisor[k], factor);
+          }
+          return res;
+        }
+
+        function pushBits(arr, val, len) {
+          for (var i = len - 1; i >= 0; i--) arr.push((val >>> i) & 1);
+        }
+
+        function encodeData(bytes, ver) {
+          var capBytes = dataCapBytes(ver);
+          var capBits = capBytes * 8;
+          var bits = [];
+          pushBits(bits, 0x4, 4);
+          pushBits(bits, bytes.length, ver >= 10 ? 16 : 8);
+          for (var i = 0; i < bytes.length; i++) pushBits(bits, bytes[i], 8);
+          var term = Math.min(4, capBits - bits.length);
+          for (var t = 0; t < term; t++) bits.push(0);
+          while (bits.length % 8 !== 0) bits.push(0);
+          var padBytes = [0xec, 0x11];
+          for (var p = 0; bits.length < capBits; p ^= 1) pushBits(bits, padBytes[p], 8);
+
+          var raw = new Uint8Array(capBytes);
+          for (var b = 0; b < capBytes; b++) {
+            var v = 0;
+            for (var k = 0; k < 8; k++) v = (v << 1) | bits[b * 8 + k];
+            raw[b] = v;
+          }
+
+          var numBlocks = NUM_BLOCKS[ver];
+          var ecLen = ECC_PER_BLOCK[ver];
+          var rawCodewords = Math.floor(rawDataModules(ver) / 8);
+          var numShort = numBlocks - (rawCodewords % numBlocks);
+          var shortLen = Math.floor(rawCodewords / numBlocks);
+          var divisor = rsDivisor(ecLen);
+          var blocks = [];
+          var offset = 0;
+          for (var bi = 0; bi < numBlocks; bi++) {
+            var dLen = shortLen - ecLen + (bi < numShort ? 0 : 1);
+            var slice = raw.subarray(offset, offset + dLen);
+            offset += dLen;
+            var ecc = rsRemainder(slice, divisor);
+            var blk = new Uint8Array(shortLen + 1);
+            blk.set(slice, 0);
+            if (bi < numShort) {
+              blk[dLen] = 0;
+              blk.set(ecc, dLen + 1);
+            } else {
+              blk.set(ecc, dLen);
+            }
+            blocks.push(blk);
+          }
+
+          var result = [];
+          var blockTotal = shortLen + 1;
+          for (var i2 = 0; i2 < blockTotal; i2++) {
+            for (var bj = 0; bj < numBlocks; bj++) {
+              if (i2 !== shortLen - ecLen || bj >= numShort) {
+                result.push(blocks[bj][i2]);
+              }
+            }
+          }
+          return result;
+        }
+
+        function buildMatrix(ver, codewords) {
+          var size = ver * 4 + 17;
+          var mods = [];
+          var isFn = [];
+          for (var r = 0; r < size; r++) {
+            mods.push(new Uint8Array(size));
+            isFn.push(new Uint8Array(size));
+          }
+
+          function setFn(r, c, dark) {
+            mods[r][c] = dark ? 1 : 0;
+            isFn[r][c] = 1;
+          }
+
+          function drawFinder(row, col) {
+            for (var dy = -1; dy <= 7; dy++) {
+              for (var dx = -1; dx <= 7; dx++) {
+                var rr = row + dy, cc = col + dx;
+                if (rr < 0 || rr >= size || cc < 0 || cc >= size) continue;
+                var dist = Math.max(Math.abs(dy - 3), Math.abs(dx - 3));
+                setFn(rr, cc, dist !== 2 && dist !== 4);
+              }
+            }
+          }
+
+          function drawAlign(row, col) {
+            for (var dy = -2; dy <= 2; dy++) {
+              for (var dx = -2; dx <= 2; dx++) {
+                setFn(row + dy, col + dx, Math.max(Math.abs(dy), Math.abs(dx)) !== 1);
+              }
+            }
+          }
+
+          for (var i = 0; i < size; i++) {
+            setFn(6, i, i % 2 === 0);
+            setFn(i, 6, i % 2 === 0);
+          }
+
+          drawFinder(0, 0);
+          drawFinder(0, size - 7);
+          drawFinder(size - 7, 0);
+
+          var ap = alignCoords(ver);
+          for (var ai = 0; ai < ap.length; ai++) {
+            for (var aj = 0; aj < ap.length; aj++) {
+              if ((ai === 0 && aj === 0) || (ai === 0 && aj === ap.length - 1) || (ai === ap.length - 1 && aj === 0)) continue;
+              drawAlign(ap[ai], ap[aj]);
+            }
+          }
+
+          function writeFormat(mask) {
+            var data = mask;
+            var rem = data;
+            for (var i = 0; i < 10; i++) rem = (rem << 1) ^ ((rem >>> 9) * 0x537);
+            var bits = ((data << 10) | rem) ^ 0x5412;
+            for (var i2 = 0; i2 <= 5; i2++) setFn(i2, 8, (bits >>> i2) & 1);
+            setFn(7, 8, (bits >>> 6) & 1);
+            setFn(8, 8, (bits >>> 7) & 1);
+            setFn(8, 7, (bits >>> 8) & 1);
+            for (var i3 = 9; i3 < 15; i3++) setFn(8, 14 - i3, (bits >>> i3) & 1);
+            for (var i4 = 0; i4 < 8; i4++) setFn(8, size - 1 - i4, (bits >>> i4) & 1);
+            for (var i5 = 8; i5 < 15; i5++) setFn(size - 15 + i5, 8, (bits >>> i5) & 1);
+            setFn(size - 8, 8, 1);
+          }
+
+          writeFormat(0);
+
+          if (ver >= 7) {
+            var rem = ver;
+            for (var vi = 0; vi < 12; vi++) rem = (rem << 1) ^ ((rem >>> 11) * 0x1f25);
+            var vBits = (ver << 12) | rem;
+            for (var k = 0; k < 18; k++) {
+              var bit = (vBits >>> k) & 1;
+              var a = size - 11 + (k % 3);
+              var b = Math.floor(k / 3);
+              setFn(b, a, bit);
+              setFn(a, b, bit);
+            }
+          }
+
+          var bitIdx = 0;
+          var totalBits = codewords.length * 8;
+          for (var right = size - 1; right >= 1; right -= 2) {
+            if (right === 6) right = 5;
+            for (var vert = 0; vert < size; vert++) {
+              for (var j = 0; j < 2; j++) {
+                var x = right - j;
+                var upward = ((right + 1) & 2) === 0;
+                var y = upward ? size - 1 - vert : vert;
+                if (!isFn[y][x] && bitIdx < totalBits) {
+                  mods[y][x] = (codewords[bitIdx >>> 3] >>> (7 - (bitIdx & 7))) & 1;
+                  bitIdx++;
+                }
+              }
+            }
+          }
+
+          function applyMask(mask, drawFmt) {
+            for (var r = 0; r < size; r++) {
+              for (var c = 0; c < size; c++) {
+                if (isFn[r][c]) continue;
+                var inv = false;
+                if (mask === 0) inv = (r + c) % 2 === 0;
+                else if (mask === 1) inv = r % 2 === 0;
+                else if (mask === 2) inv = c % 3 === 0;
+                else if (mask === 3) inv = (r + c) % 3 === 0;
+                else if (mask === 4) inv = (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0;
+                else if (mask === 5) inv = ((r * c) % 2 + (r * c) % 3) === 0;
+                else if (mask === 6) inv = (((r * c) % 2 + (r * c) % 3) % 2) === 0;
+                else inv = (((r + c) % 2 + (r * c) % 3) % 2) === 0;
+                if (inv) mods[r][c] ^= 1;
+              }
+            }
+            if (drawFmt) writeFormat(mask);
+          }
+
+          function addHist(len, hist) {
+            if (hist[0] === 0) len += size;
+            hist.pop();
+            hist.unshift(len);
+          }
+
+          function countPat(h) {
+            var n = h[1];
+            var core = n > 0 && h[2] === n && h[3] === n * 3 && h[4] === n && h[5] === n;
+            return (core && h[0] >= n * 4 && h[6] >= n ? 1 : 0) + (core && h[6] >= n * 4 && h[0] >= n ? 1 : 0);
+          }
+
+          function termCount(curColor, curLen, h) {
+            if (curColor) { addHist(curLen, h); curLen = 0; }
+            addHist(curLen + size, h);
+            return countPat(h);
+          }
+
+          function penalty() {
+            var pen = 0, darkCount = 0;
+            for (var r = 0; r < size; r++) {
+              var rc = 0, rl = 0, rh = [0, 0, 0, 0, 0, 0, 0];
+              for (var c = 0; c < size; c++) {
+                var v = mods[r][c];
+                darkCount += v;
+                if (v === rc) {
+                  rl++;
+                  if (rl === 5) pen += 3;
+                  else if (rl > 5) pen += 1;
+                } else {
+                  addHist(rl, rh);
+                  if (!rc) pen += countPat(rh) * 40;
+                  rc = v;
+                  rl = 1;
+                }
+                if (r + 1 < size && c + 1 < size && v === mods[r][c + 1] && v === mods[r + 1][c] && v === mods[r + 1][c + 1]) {
+                  pen += 3;
+                }
+              }
+              pen += termCount(rc, rl, rh) * 40;
+            }
+            for (var c2 = 0; c2 < size; c2++) {
+              var cc = 0, cl = 0, ch = [0, 0, 0, 0, 0, 0, 0];
+              for (var r2 = 0; r2 < size; r2++) {
+                var v2 = mods[r2][c2];
+                if (v2 === cc) {
+                  cl++;
+                  if (cl === 5) pen += 3;
+                  else if (cl > 5) pen += 1;
+                } else {
+                  addHist(cl, ch);
+                  if (!cc) pen += countPat(ch) * 40;
+                  cc = v2;
+                  cl = 1;
+                }
+              }
+              pen += termCount(cc, cl, ch) * 40;
+            }
+            var total = size * size;
+            var k = Math.ceil(Math.abs(darkCount * 20 - total * 10) / total) - 1;
+            return pen + k * 10;
+          }
+
+          var bestMask = 0, minPen = Infinity;
+          for (var m = 0; m < 8; m++) {
+            applyMask(m, true);
+            var p = penalty();
+            if (p < minPen) { minPen = p; bestMask = m; }
+            applyMask(m, false);
+          }
+          applyMask(bestMask, true);
+          return mods;
+        }
+
+        function encode(text) {
+          var bytes = typeof TextEncoder !== "undefined"
+            ? new TextEncoder().encode(text)
+            : unescape(encodeURIComponent(text)).split("").map(function (ch) { return ch.charCodeAt(0); });
+          var ver = 0;
+          for (var v = 1; v <= 40; v++) {
+            var bitNeed = 4 + (v >= 10 ? 16 : 8) + bytes.length * 8;
+            if (bitNeed <= dataCapBytes(v) * 8) { ver = v; break; }
+          }
+          if (!ver) return null;
+          var codewords = encodeData(bytes, ver);
+          return buildMatrix(ver, codewords);
+        }
+
+        function toSvg(text, px) {
+          var mods = encode(text);
+          if (!mods) return "";
+          var n = mods.length;
+          var quiet = 2;
+          var dim = n + quiet * 2;
+          var d = [];
+          for (var r = 0; r < n; r++) {
+            var c = 0;
+            while (c < n) {
+              if (!mods[r][c]) { c++; continue; }
+              var start = c;
+              while (c < n && mods[r][c]) c++;
+              d.push("M" + (start + quiet) + "," + (r + quiet) + "h" + (c - start) + "v1h-" + (c - start) + "z");
+            }
+          }
+          return '<svg xmlns="http://www.w3.org/2000/svg" width="' + px + '" height="' + px + '" viewBox="0 0 ' + dim + ' ' + dim + '" shape-rendering="crispEdges"><rect width="' + dim + '" height="' + dim + '" fill="#ffffff"/><path d="' + d.join("") + '" fill="#090d16"/></svg>';
+        }
+
+        return { encode: encode, toSvg: toSvg };
+      })();
+
+      /* =========================================================================
+         2. i18n Dictionary (Persian FA & English EN)
+         ========================================================================= */
+      var I18N = {
+        fa: {
+          defaultTitle: "اشتراک سرویس",
+          online: "متصل (آنلاین)",
+          offline: "آفلاین",
+          refresh: "به‌روزرسانی لحظه‌ای",
+          support: "پشتیبانی",
+          remained: "حجم باقیمانده",
+          used: "حجم مصرف‌شده",
+          ofTotal: "از {total} کل حجم",
+          unlimitedPlan: "ترافیک نامحدود",
+          daysLeft: "{n} روز مانده",
+          noExpiry: "بدون محدودیت زمانی",
+          statusActive: "فعال",
+          statusUnlimited: "نامحدود",
+          statusExpired: "منقضی شده",
+          statusDepleted: "اتمام حجم",
+          statusDisabled: "غیرفعال",
+          downloaded: "دانلود",
+          uploaded: "آپلود",
+          totalUsed: "مصرف کل",
+          expiryDate: "تاریخ انقضا",
+          lastOnline: "آخرین اتصال",
+          devices: "دستگاه‌های متصل",
+          autoUpdate: "به‌روزرسانی خودکار",
+          everyHours: "هر {h} ساعت",
+          never: "هرگز",
+          copySub: "کپی لینک اشتراک",
+          showQr: "کد QR",
+          copied: "با موفقیت کپی شد",
+          refreshed: "اطلاعات اشتراک به‌روزرسانی شد",
+          tabApps: "اتصال و برنامه‌ها",
+          tabLinks: "لینک‌های اشتراک",
+          tabConfigs: "کانفیگ‌ها",
+          importBtn: "افزودن خودکار",
+          copyBtn: "کپی",
+          downloadBtn: "دانلود",
+          qrBtn: "QR",
+          copyAll: "کپی همه کانفیگ‌ها",
+          searchConfigs: "جستجوی سرور یا پروتکل...",
+          noConfigsMatch: "هیچ کانفیگی با این عبارت پیدا نشد.",
+          scanTitle: "اسکن سریع اشتراک",
+          scanHint: "دوربین گوشی یا اپلیکیشن VPN را روی کد QR بگیرید تا اشتراک فوراً اضافه شود.",
+          subMainLabel: "لینک اشتراک اصلی (Subscription)",
+          subJsonLabel: "پروفایل Xray JSON",
+          subClashLabel: "پروفایل Clash / Mihomo",
+          appTipMobile: "اگر اپلیکیشن روی گوشی نصب باشد، با زدن «افزودن خودکار» اشتراک مستقیم وارد برنامه می‌شود.",
+          appTipDesktop: "در ویندوز برای v2rayN کافیست لینک اشتراک را کپی کرده و در برنامه Ctrl+V بزنید، یا از Happ / Clash Verge استفاده کنید.",
+          justNow: "هم‌اکنون",
+          minsAgo: "{n} دقیقه پیش",
+          hoursAgo: "{n} ساعت پیش",
+          daysAgo: "{n} روز پیش",
+          deviceSlot: "{used} از {limit} دستگاه",
+          platAndroid: "اندروید",
+          platIos: "آیفون (iOS)",
+          platWindows: "ویندوز",
+          platMac: "مک (macOS)",
+          appDescAuto: "افزودن با یک کلیک",
+          appDescCopy: "کپی لینک و Paste در برنامه",
+          idCopied: "شناسه اشتراک کپی شد",
+          close: "بستن",
+          panelUpdated: "وضعیت لحظه‌ای فعال"
+        },
+        en: {
+          defaultTitle: "Subscription",
+          online: "Online",
+          offline: "Offline",
+          refresh: "Refresh status",
+          support: "Support",
+          remained: "Remaining Traffic",
+          used: "Used Traffic",
+          ofTotal: "of {total} total quota",
+          unlimitedPlan: "Unlimited Traffic",
+          daysLeft: "{n} days left",
+          noExpiry: "No expiration",
+          statusActive: "Active",
+          statusUnlimited: "Unlimited",
+          statusExpired: "Expired",
+          statusDepleted: "Depleted",
+          statusDisabled: "Disabled",
+          downloaded: "Downloaded",
+          uploaded: "Uploaded",
+          totalUsed: "Total Used",
+          expiryDate: "Expires On",
+          lastOnline: "Last Online",
+          devices: "Device Slots",
+          autoUpdate: "Auto Refresh",
+          everyHours: "Every {h}h",
+          never: "Never",
+          copySub: "Copy Sub Link",
+          showQr: "QR Code",
+          copied: "Copied to clipboard",
+          refreshed: "Live status updated",
+          tabApps: "Apps & Setup",
+          tabLinks: "Subscription Links",
+          tabConfigs: "Configs",
+          importBtn: "Import",
+          copyBtn: "Copy",
+          downloadBtn: "Download",
+          qrBtn: "QR",
+          copyAll: "Copy All Configs",
+          searchConfigs: "Filter servers or protocols...",
+          noConfigsMatch: "No configurations match your filter.",
+          scanTitle: "Quick QR Scan",
+          scanHint: "Scan with your VPN app camera to import this subscription instantly.",
+          subMainLabel: "Main Subscription URL",
+          subJsonLabel: "Xray JSON Profile",
+          subClashLabel: "Clash / Mihomo Profile",
+          appTipMobile: "Tap Import to open your installed VPN app directly with this subscription.",
+          appTipDesktop: "On Windows v2rayN, copy the subscription link and press Ctrl+V, or use Happ / Clash Verge.",
+          justNow: "Just now",
+          minsAgo: "{n}m ago",
+          hoursAgo: "{n}h ago",
+          daysAgo: "{n}d ago",
+          deviceSlot: "{used} / {limit} devices",
+          platAndroid: "Android",
+          platIos: "iOS",
+          platWindows: "Windows",
+          platMac: "macOS",
+          appDescAuto: "One-tap profile import",
+          appDescCopy: "Copy link & paste in app",
+          idCopied: "Subscription ID copied",
+          close: "Close",
+          panelUpdated: "Live telemetry active"
+        }
+      };
+
+      /* =========================================================================
+         3. State & Helpers
+         ========================================================================= */
+      var DATA = window.__SUB_DATA__ || {};
+      var STORAGE_LANG = "xui_custom_sub_lang";
+      var STORAGE_THEME = "xui_custom_sub_theme";
+
+      function detectInitialLang() {
+        try {
+          var saved = localStorage.getItem(STORAGE_LANG);
+          if (saved === "fa" || saved === "en") return saved;
+        } catch (e) {}
+        if (/jalali/i.test(String(DATA.datepicker || ""))) return "fa";
+        var navLang = (navigator.language || "").toLowerCase();
+        if (navLang.indexOf("fa") === 0) return "fa";
+        return "en";
+      }
+
+      function detectInitialTheme() {
+        try {
+          var saved = localStorage.getItem(STORAGE_THEME);
+          if (saved === "dark" || saved === "light") return saved;
+        } catch (e) {}
+        return "dark";
+      }
+
+      function detectPlatform() {
+        var ua = navigator.userAgent || "";
+        if (/android/i.test(ua)) return "android";
+        if (/iphone|ipad|ipod/i.test(ua)) return "ios";
+        if (/macintosh|mac os x/i.test(ua)) return navigator.maxTouchPoints > 1 ? "ios" : "macos";
+        if (/windows/i.test(ua)) return "windows";
+        return "android";
+      }
+
+      var state = {
+        data: DATA,
+        hwid: null,
+        lang: detectInitialLang(),
+        theme: detectInitialTheme(),
+        tab: "apps",
+        platform: detectPlatform(),
+        search: "",
+        refreshing: false
+      };
+
+      function tr(key, vars) {
+        var dict = I18N[state.lang] || I18N.en;
+        var s = dict[key] || I18N.en[key] || key;
+        if (vars) {
+          Object.keys(vars).forEach(function (k) {
+            s = s.split("{" + k + "}").join(String(vars[k]));
+          });
+        }
+        return s;
+      }
+
+      function esc(str) {
+        return String(str == null ? "" : str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function splitSize(label) {
+        var m = /^([\d.,]+)\s*(.*)$/.exec(String(label || "").trim());
+        return m ? [m[1], m[2]] : [String(label || "0"), ""];
+      }
+
+      function formatDate(ms) {
+        if (!ms || ms <= 0) return "-";
+        var d = new Date(ms);
+        if (!isFinite(d.getTime())) return "-";
+        var useJalali = state.lang === "fa" || /jalali/i.test(String(state.data.datepicker || ""));
+        try {
+          var locale = useJalali ? "fa-IR-u-ca-persian" : (state.lang === "fa" ? "fa-IR" : "en-US");
+          return new Intl.DateTimeFormat(locale, {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+          }).format(d);
+        } catch (e) {
+          return d.toISOString().slice(0, 16).replace("T", " ");
+        }
+      }
+
+      function formatRelative(ms) {
+        if (!ms || ms <= 0) return tr("never");
+        var diff = Math.max(0, Date.now() - ms);
+        var mins = Math.floor(diff / 60000);
+        if (mins < 1) return tr("justNow");
+        if (mins < 60) return tr("minsAgo", { n: mins });
+        var hrs = Math.floor(mins / 60);
+        if (hrs < 24) return tr("hoursAgo", { n: hrs });
+        var days = Math.floor(hrs / 24);
+        if (days <= 14) return tr("daysAgo", { n: days });
+        return formatDate(ms);
+      }
+
+      function safeBtoa(str) {
+        try {
+          var bytes = new TextEncoder().encode(str);
+          var bin = "";
+          for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+          return btoa(bin);
+        } catch (e) {
+          return btoa(unescape(encodeURIComponent(str)));
+        }
+      }
+
+      function safeAtobUtf8(b64) {
+        var normalized = b64.replace(/-/g, "+").replace(/_/g, "/");
+        normalized += "=".repeat((4 - (normalized.length % 4)) % 4);
+        var bin = atob(normalized);
+        var bytes = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        return new TextDecoder().decode(bytes);
+      }
+
+      function parseLink(link, idx) {
+        var trimmed = String(link || "").trim();
+        var m = /^([a-z0-9]+):\/\//i.exec(trimmed);
+        var scheme = m ? m[1].toLowerCase() : "";
+        var protoMap = {
+          vless: "VLESS", vmess: "VMESS", trojan: "TROJAN", ss: "SS",
+          shadowsocks: "SS", hysteria2: "HY2", hy2: "HY2", hysteria: "HYSTERIA",
+          wireguard: "WG", wg: "WG", tg: "MTPROTO", vpn: "AMNEZIAWG", tuic: "TUIC"
+        };
+        var proto = protoMap[scheme] || (scheme ? scheme.toUpperCase() : "LINK");
+        var net = "", sec = "", remark = "", port = "";
+        if (scheme === "vmess") {
+          try {
+            var json = JSON.parse(safeAtobUtf8(trimmed.slice(8).split("#")[0]));
+            net = json.net || "";
+            sec = json.tls || "";
+            remark = typeof json.ps === "string" ? json.ps : "";
+            port = json.port != null ? String(json.port) : "";
+          } catch (e) {}
+        } else if (scheme === "vpn") {
+          try {
+            var cfg = safeAtobUtf8(trimmed.slice(6));
+            var rm = /^#\s?(.*)$/m.exec(cfg);
+            var pm = /^Endpoint\s*=\s*.+:(\d+)\s*$/m.exec(cfg);
+            remark = rm ? rm[1].trim() : "";
+            port = pm ? pm[1] : "";
+          } catch (e) {}
+        } else {
+          try {
+            var u = new URL(trimmed);
+            net = u.searchParams.get("type") || "";
+            sec = u.searchParams.get("security") || "";
+            port = u.port || u.searchParams.get("port") || "";
+            var h = u.hash.replace(/^#/, "");
+            try { remark = decodeURIComponent(h); } catch (e2) { remark = h; }
+          } catch (e) {}
+          if (scheme === "tg") sec = "FAKETLS";
+          if (scheme === "tuic") { net = "QUIC"; sec = "TLS"; }
+        }
+        if (sec.toLowerCase() === "none") sec = "";
+        var isPq = false;
+        try {
+          var q = trimmed.split("#")[0].split("?")[1] || "";
+          var sp = new URLSearchParams(q);
+          if (sp.get("pqv") || String(sp.get("encryption") || "").indexOf("mlkem768") === 0) isPq = true;
+        } catch (e) {}
+        return {
+          proto: proto,
+          net: net.toUpperCase(),
+          sec: sec.toUpperCase(),
+          remark: remark.trim() || ("Config #" + (idx + 1)),
+          port: port,
+          canQr: !isPq && trimmed.length <= 1800
+        };
+      }
+
+      function protoTagClass(proto) {
+        if (proto === "VLESS") return "tag-cyan";
+        if (proto === "VMESS") return "tag-blue";
+        if (proto === "TROJAN") return "tag-rose";
+        if (proto === "SS" || proto === "HY2" || proto === "HYSTERIA") return "tag-purple";
+        if (proto === "TUIC" || proto === "AMNEZIAWG") return "tag-amber";
+        return "tag-green";
+      }
+
+      function buildApps() {
+        var d = state.data;
+        var subUrl = d.subUrl || window.location.href.split("?")[0];
+        var clashUrl = d.subClashUrl || "";
+        var sId = d.sId || "";
+        var title = d.subTitle || sId || "Subscription";
+        var encSub = encodeURIComponent(subUrl);
+        var encName = encodeURIComponent(title);
+        var rocketSource = subUrl + (subUrl.indexOf("?") >= 0 ? "&" : "?") + "flag=shadowrocket";
+
+        var list = {
+          android: [
+            { id: "v2rayng", name: "v2rayNG", color: "#0ea5e9", url: "v2rayng://install-config?url=" + encSub, descKey: "appDescAuto" },
+            { id: "v2box", name: "V2Box", color: "#10b981", url: "v2box://install-sub?url=" + encSub + "&name=" + encodeURIComponent(sId || title), descKey: "appDescAuto" },
+            { id: "happ", name: "Happ", color: "#6366f1", url: "happ://add/" + subUrl, descKey: "appDescAuto" },
+            { id: "singbox", name: "Sing-box", color: "#f59e0b", url: "sing-box://import-remote-profile?url=" + encSub + "#" + encName, descKey: "appDescAuto" },
+            { id: "v2raytun", name: "V2RayTun", color: "#06b6d4", url: "v2raytun://import/" + subUrl, descKey: "appDescAuto" },
+            { id: "incy", name: "Incy", color: "#ec4899", url: "incy://add/" + subUrl, descKey: "appDescAuto" }
+          ],
+          ios: [
+            { id: "streisand", name: "Streisand", color: "#6366f1", url: "streisand://import/" + encSub, descKey: "appDescAuto" },
+            { id: "v2box", name: "V2Box", color: "#10b981", url: "v2box://install-sub?url=" + encSub + "&name=" + encodeURIComponent(sId || title), descKey: "appDescAuto" },
+            { id: "shadowrocket", name: "Shadowrocket", color: "#3b82f6", url: "shadowrocket://add/sub://" + safeBtoa(rocketSource) + "?remark=" + encName, descKey: "appDescAuto" },
+            { id: "happ", name: "Happ", color: "#8b5cf6", url: "happ://add/" + subUrl, descKey: "appDescAuto" },
+            { id: "v2raytun", name: "V2RayTun", color: "#06b6d4", url: "v2raytun://import/" + subUrl, descKey: "appDescAuto" },
+            { id: "incy", name: "Incy", color: "#ec4899", url: "incy://add/" + subUrl, descKey: "appDescAuto" }
+          ],
+          windows: [
+            { id: "happ", name: "Happ Desktop", color: "#6366f1", url: "happ://add/" + subUrl, descKey: "appDescAuto" },
+            { id: "singbox", name: "Sing-box", color: "#f59e0b", url: "sing-box://import-remote-profile?url=" + encSub + "#" + encName, descKey: "appDescAuto" },
+            { id: "v2rayn", name: "v2rayN", color: "#0ea5e9", copyVal: subUrl, descKey: "appDescCopy" }
+          ],
+          macos: [
+            { id: "v2box", name: "V2Box", color: "#10b981", url: "v2box://install-sub?url=" + encSub + "&name=" + encodeURIComponent(sId || title), descKey: "appDescAuto" },
+            { id: "streisand", name: "Streisand", color: "#6366f1", url: "streisand://import/" + encSub, descKey: "appDescAuto" },
+            { id: "shadowrocket", name: "Shadowrocket", color: "#3b82f6", url: "shadowrocket://add/sub://" + safeBtoa(rocketSource) + "?remark=" + encName, descKey: "appDescAuto" },
+            { id: "happ", name: "Happ", color: "#8b5cf6", url: "happ://add/" + subUrl, descKey: "appDescAuto" }
+          ]
+        };
+
+        if (clashUrl) {
+          var encClash = encodeURIComponent(clashUrl);
+          var clashEntry = { id: "clash", name: "Clash / Mihomo", color: "#a855f7", url: "clash://install-config?url=" + encClash, descKey: "appDescAuto" };
+          list.android.push(clashEntry);
+          list.windows.splice(1, 0, clashEntry);
+          list.macos.push(clashEntry);
+        }
+        return list;
+      }
+
+      /* =========================================================================
+         4. Clipboard, Toast & Modal
+         ========================================================================= */
+      var toastTimer = null;
+      function showToast(msg) {
+        var el = document.getElementById("toast");
+        if (!el) return;
+        el.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>' + esc(msg) + '</span>';
+        el.classList.add("is-show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          el.classList.remove("is-show");
+        }, 2300);
+      }
+
+      function copyText(value, msg) {
+        if (!value) return;
+        var done = function () { showToast(msg || tr("copied")); };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(value).then(done).catch(function () { fallbackCopy(value, done); });
+        } else {
+          fallbackCopy(value, done);
+        }
+      }
+
+      function fallbackCopy(value, cb) {
+        var ta = document.createElement("textarea");
+        ta.value = value;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); } catch (e) {}
+        document.body.removeChild(ta);
+        cb();
+      }
+
+      var modalUrlValue = "";
+      function openQrModal(title, value) {
+        var modal = document.getElementById("qr-modal");
+        var svgBox = document.getElementById("qr-modal-svg");
+        var urlBox = document.getElementById("qr-modal-url");
+        var titleEl = document.getElementById("qr-modal-title");
+        var copyBtn = document.getElementById("qr-modal-copy");
+        modalUrlValue = value;
+        titleEl.textContent = title || "QR Code";
+        urlBox.textContent = value;
+        svgBox.innerHTML = QR.toSvg(value, 224) || '<div class="empty-state">QR too large</div>';
+        copyBtn.textContent = tr("copyBtn");
+        modal.classList.add("is-open");
+      }
+
+      function closeQrModal() {
+        var modal = document.getElementById("qr-modal");
+        if (modal) modal.classList.remove("is-open");
+      }
+
+      /* =========================================================================
+         5. Live API Sync (?format=info and /hwid-status)
+         ========================================================================= */
+      function resolveSubBasePath() {
+        var raw = state.data.subUrl;
+        if (raw) {
+          try {
+            var u = new URL(raw, window.location.href);
+            if (u.origin === window.location.origin) {
+              return u.pathname.replace(/\/$/, "");
+            }
+          } catch (e) {}
+        }
+        return window.location.pathname.replace(/\/$/, "");
+      }
+
+      function fetchLiveData(manual) {
+        if (state.refreshing) return;
+        if (manual) {
+          state.refreshing = true;
+          render();
+        }
+        var basePath = resolveSubBasePath();
+        var p1 = fetch(basePath + "?format=info", { cache: "no-store" })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (info) {
+            if (!info || typeof info !== "object") return;
+            var prevLinks = state.data.links;
+            state.data = Object.assign({}, state.data, info, {
+              links: Array.isArray(info.links) ? info.links : prevLinks
+            });
+          })
+          .catch(function () {});
+
+        var p2 = fetch(basePath + "/hwid-status", { cache: "no-store" })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (hw) {
+            if (hw && typeof hw === "object" && hw.active) state.hwid = hw;
+            else if (hw && hw.active === false) state.hwid = null;
+          })
+          .catch(function () {});
+
+        Promise.all([p1, p2]).then(function () {
+          var wasManual = state.refreshing;
+          state.refreshing = false;
+          render();
+          if (wasManual) showToast(tr("refreshed"));
+        });
+      }
+
+      /* =========================================================================
+         6. Icons & Rendering
+         ========================================================================= */
+      var ICONS = {
+        copy: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+        qr: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 21h1M21 14v1"/></svg>',
+        download: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+        refresh: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>',
+        sun: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-15.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2m-15.07 7.07 1.41-1.41m11.32-11.32 1.41-1.41"/></svg>',
+        moon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
+        support: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>',
+        info: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>',
+        apps: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+        link: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+        server: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>',
+        search: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+        arrow: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>'
+      };
+
+      function resolveStatus() {
+        var d = state.data;
+        var now = Date.now();
+        var totalByte = Number(d.totalByte || 0);
+        var usedByte = Number(d.downloadByte || 0) + Number(d.uploadByte || 0);
+        var expireMs = Number(d.expire || 0) * 1000;
+        var daysLeft = expireMs > 0 ? Math.max(0, Math.ceil((expireMs - now) / 86400000)) : null;
+
+        var status = "active";
+        if (!d.enabled) status = "disabled";
+        else if (expireMs > 0 && now >= expireMs) status = "expired";
+        else if (totalByte > 0 && usedByte >= totalByte) status = "depleted";
+        else if (totalByte <= 0 && expireMs === 0) status = "unlimited";
+
+        var pct = totalByte > 0 ? Math.min(100, Math.max(0, (usedByte / totalByte) * 100)) : 0;
+        return {
+          status: status,
+          healthy: status === "active" || status === "unlimited",
+          hasQuota: totalByte > 0,
+          pct: pct,
+          daysLeft: daysLeft,
+          expireMs: expireMs,
+          lastOnlineMs: Number(d.lastOnline || 0)
+        };
+      }
+
+      function render() {
+        document.documentElement.lang = state.lang;
+        document.documentElement.dir = state.lang === "fa" ? "rtl" : "ltr";
+        document.documentElement.setAttribute("data-theme", state.theme);
+
+        var d = state.data;
+        var title = d.subTitle || tr("defaultTitle");
+        document.title = title;
+
+        var emails = Array.isArray(d.emails)
+          ? d.emails.filter(Boolean).filter(function (v, i, a) { return a.indexOf(v) === i; })
+          : [];
+        var links = Array.isArray(d.links) ? d.links : [];
+        var subUrl = d.subUrl || window.location.href.split("?")[0];
+        var sId = d.sId || "";
+        var st = resolveStatus();
+
+        var statusMeta = {
+          active: { cls: "badge-ok", label: tr("statusActive") },
+          unlimited: { cls: "badge-purple", label: tr("statusUnlimited") },
+          expired: { cls: "badge-danger", label: tr("statusExpired") },
+          depleted: { cls: "badge-danger", label: tr("statusDepleted") },
+          disabled: { cls: "badge-danger", label: tr("statusDisabled") }
+        }[st.status];
+
+        var ringColor = !st.healthy || st.pct >= 90 ? "var(--danger)" : st.pct >= 75 ? "var(--warn)" : "url(#ringGrad)";
+        var radius = 73;
+        var circ = 2 * Math.PI * radius;
+        var fillPct = st.hasQuota ? st.pct : 100;
+        var offset = circ * (1 - fillPct / 100);
+
+        var mainDisplay = splitSize(st.hasQuota ? (d.remained || "0 B") : (d.used || "0 B"));
+        var brandInitial = (Array.from ? Array.from(title)[0] : title.charAt(0) || "S").toUpperCase();
+
+        var html = "";
+
+        /* ---- Top Bar ---- */
+        html += '<header class="topbar">';
+        html += '  <div class="brand">';
+        html += '    <div class="brand-logo" aria-hidden="true">' + esc(brandInitial) + '</div>';
+        html += '    <div class="brand-meta">';
+        html += '      <div class="brand-title-row">';
+        html += '        <h1 class="brand-title" dir="auto">' + esc(title) + '</h1>';
+        html += '        <span class="live-pill ' + (d.isOnline ? "is-online" : "") + '"><span class="live-dot"></span>' + esc(d.isOnline ? tr("online") : tr("offline")) + '</span>';
+        html += '      </div>';
+        html += '      <div class="brand-sub">';
+        if (emails.length) {
+          html += '        <bdi dir="ltr">' + esc(emails.join(", ")) + '</bdi>';
+        }
+        if (sId) {
+          html += '        <button type="button" class="sid-pill" id="btn-copy-sid" title="' + esc(sId) + '">' + ICONS.copy.replace('width="16" height="16"', 'width="12" height="12"') + '<bdi dir="ltr">' + esc(sId) + '</bdi></button>';
+        }
+        html += '      </div>';
+        html += '    </div>';
+        html += '  </div>';
+        html += '  <div class="topbar-actions">';
+        if (d.subSupportUrl) {
+          html += '    <a class="btn btn-sm" href="' + esc(d.subSupportUrl) + '" target="_blank" rel="noopener noreferrer">' + ICONS.support + '<span>' + esc(tr("support")) + '</span></a>';
+        }
+        html += '    <button type="button" class="btn btn-icon ' + (state.refreshing ? "is-spinning" : "") + '" id="btn-refresh" title="' + esc(tr("refresh")) + '" aria-label="' + esc(tr("refresh")) + '">' + ICONS.refresh + '</button>';
+        html += '    <button type="button" class="btn btn-icon" id="btn-theme" title="Theme" aria-label="Theme">' + (state.theme === "dark" ? ICONS.sun : ICONS.moon) + '</button>';
+        html += '    <button type="button" class="btn btn-sm" id="btn-lang">' + (state.lang === "fa" ? "EN" : "فارسی") + '</button>';
+        html += '  </div>';
+        html += '</header>';
+
+        /* ---- Announce ---- */
+        if (d.announce) {
+          html += '<section class="announce" aria-label="Announcement">';
+          html += '  <span class="announce-icon">' + ICONS.info + '</span>';
+          html += '  <p class="announce-text" dir="auto">' + esc(d.announce) + '</p>';
+          html += '</section>';
+        }
+
+        /* ---- Hero Telemetry Card ---- */
+        html += '<section class="card">';
+        html += '  <div class="hero-grid">';
+        html += '    <div class="ring-wrap">';
+        html += '      <svg class="ring-svg" viewBox="0 0 176 176" aria-hidden="true">';
+        html += '        <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--accent)"/><stop offset="100%" stop-color="var(--accent-2)"/></linearGradient></defs>';
+        html += '        <circle class="ring-track" cx="88" cy="88" r="' + radius + '"/>';
+        html += '        <circle class="ring-fill" cx="88" cy="88" r="' + radius + '" stroke="' + ringColor + '" stroke-dasharray="' + circ.toFixed(2) + '" stroke-dashoffset="' + offset.toFixed(2) + '"/>';
+        html += '      </svg>';
+        html += '      <div class="ring-center">';
+        html += '        <div class="ring-pct">' + (st.hasQuota ? (st.pct.toFixed(1) + "%") : "∞") + '</div>';
+        html += '        <div class="ring-lbl">' + esc(st.hasQuota ? tr("used") : tr("statusUnlimited")) + '</div>';
+        html += '      </div>';
+        html += '    </div>';
+        html += '    <div class="hero-info">';
+        html += '      <div class="hero-badges">';
+        html += '        <span class="badge ' + statusMeta.cls + '">' + esc(statusMeta.label) + '</span>';
+        html += '        <span class="badge badge-neutral">' + esc(st.daysLeft !== null ? tr("daysLeft", { n: st.daysLeft }) : tr("noExpiry")) + '</span>';
+        if (state.hwid && state.hwid.active) {
+          var hwCls = state.hwid.full ? "badge-warn" : "badge-neutral";
+          html += '        <span class="badge ' + hwCls + '">' + esc(tr("devices")) + ': ' + esc(tr("deviceSlot", { used: state.hwid.registered, limit: state.hwid.limit })) + '</span>';
+        }
+        html += '      </div>';
+        html += '      <div class="hero-metric">';
+        html += '        <div class="hero-metric-kicker">' + esc(st.hasQuota ? tr("remained") : tr("used")) + '</div>';
+        html += '        <div class="hero-metric-val"><bdi dir="ltr"><span class="hero-num">' + esc(mainDisplay[0]) + '</span>' + (mainDisplay[1] ? ' <span class="hero-unit">' + esc(mainDisplay[1]) + '</span>' : '') + '</bdi></div>';
+        html += '        <div class="hero-sub">' + esc(st.hasQuota ? tr("ofTotal", { total: d.total || "0" }) : tr("unlimitedPlan")) + '</div>';
+        html += '      </div>';
+        html += '      <div class="stats-grid">';
+        html += '        <div class="stat-box"><span class="stat-k">' + esc(tr("downloaded")) + '</span><span class="stat-v"><bdi dir="ltr">' + esc(d.download || "0 B") + '</bdi></span></div>';
+        html += '        <div class="stat-box"><span class="stat-k">' + esc(tr("uploaded")) + '</span><span class="stat-v"><bdi dir="ltr">' + esc(d.upload || "0 B") + '</bdi></span></div>';
+        html += '        <div class="stat-box"><span class="stat-k">' + esc(tr("totalUsed")) + '</span><span class="stat-v"><bdi dir="ltr">' + esc(d.used || "0 B") + '</bdi></span></div>';
+        html += '        <div class="stat-box"><span class="stat-k">' + esc(tr("expiryDate")) + '</span><span class="stat-v">' + esc(st.expireMs > 0 ? formatDate(st.expireMs) : tr("noExpiry")) + '</span></div>';
+        html += '        <div class="stat-box"><span class="stat-k">' + esc(tr("lastOnline")) + '</span><span class="stat-v" title="' + esc(formatDate(st.lastOnlineMs)) + '">' + esc(formatRelative(st.lastOnlineMs)) + '</span></div>';
+        if (state.hwid && state.hwid.active) {
+          html += '        <div class="stat-box"><span class="stat-k">' + esc(tr("devices")) + '</span><span class="stat-v"><bdi dir="ltr">' + esc(state.hwid.registered + " / " + state.hwid.limit) + '</bdi></span></div>';
+        } else {
+          var upd = Number(d.subUpdates || 0);
+          html += '        <div class="stat-box"><span class="stat-k">' + esc(tr("autoUpdate")) + '</span><span class="stat-v">' + esc(upd > 0 ? tr("everyHours", { h: upd }) : "-") + '</span></div>';
+        }
+        html += '      </div>';
+        html += '    </div>';
+        html += '  </div>';
+
+        /* Quick Action Bar inside Hero */
+        html += '  <div class="quick-dock">';
+        html += '    <div class="quick-url-wrap"><span class="quick-url-text" dir="ltr" title="' + esc(subUrl) + '">' + esc(subUrl) + '</span></div>';
+        html += '    <div class="quick-btns">';
+        html += '      <button type="button" class="btn btn-primary" id="btn-copy-main">' + ICONS.copy + '<span>' + esc(tr("copySub")) + '</span></button>';
+        html += '      <button type="button" class="btn" id="btn-qr-main">' + ICONS.qr + '<span>' + esc(tr("showQr")) + '</span></button>';
+        html += '    </div>';
+        html += '  </div>';
+        html += '</section>';
+
+        /* ---- Tabs Navigation ---- */
+        html += '<nav class="tabs-bar" role="tablist">';
+        html += '  <button type="button" class="tab-btn ' + (state.tab === "apps" ? "is-active" : "") + '" data-tab="apps" role="tab">' + ICONS.apps + '<span>' + esc(tr("tabApps")) + '</span></button>';
+        html += '  <button type="button" class="tab-btn ' + (state.tab === "links" ? "is-active" : "") + '" data-tab="links" role="tab">' + ICONS.link + '<span>' + esc(tr("tabLinks")) + '</span></button>';
+        if (links.length > 0) {
+          html += '  <button type="button" class="tab-btn ' + (state.tab === "configs" ? "is-active" : "") + '" data-tab="configs" role="tab">' + ICONS.server + '<span>' + esc(tr("tabConfigs")) + '</span><span class="tab-count">' + links.length + '</span></button>';
+        }
+        html += '</nav>';
+
+        /* ---- Tab Panels ---- */
+        html += '<section class="card">';
+
+        // 1) Apps Tab
+        var appsByPlat = buildApps();
+        var platList = [
+          { id: "android", label: tr("platAndroid") },
+          { id: "ios", label: tr("platIos") },
+          { id: "windows", label: tr("platWindows") },
+          { id: "macos", label: tr("platMac") }
+        ];
+        var currentApps = appsByPlat[state.platform] || appsByPlat.android;
+        html += '<div class="tab-panel ' + (state.tab === "apps" ? "is-active" : "") + '" data-panel="apps">';
+        html += '  <div class="platform-pills">';
+        platList.forEach(function (pl) {
+          html += '    <button type="button" class="plat-btn ' + (state.platform === pl.id ? "is-active" : "") + '" data-plat="' + pl.id + '">' + esc(pl.label) + '</button>';
+        });
+        html += '  </div>';
+        html += '  <div class="apps-grid' + (currentApps.length === 4 ? ' is-4col' : '') + '">';
+        currentApps.forEach(function (app) {
+          html += '    <div class="app-card">';
+          html += '      <span class="app-ico" style="background:' + app.color + '">' + esc(app.name.charAt(0).toUpperCase()) + '</span>';
+          html += '      <div class="app-meta"><div class="app-name">' + esc(app.name) + '</div><div class="app-desc">' + esc(tr(app.descKey)) + '</div></div>';
+          if (app.copyVal) {
+            html += '      <button type="button" class="btn btn-sm btn-primary" data-copy="' + esc(app.copyVal) + '">' + ICONS.copy + '<span>' + esc(tr("copyBtn")) + '</span></button>';
+          } else {
+            html += '      <a class="btn btn-sm btn-primary" href="' + esc(app.url) + '"><span>' + esc(tr("importBtn")) + '</span>' + ICONS.arrow + '</a>';
+          }
+          html += '    </div>';
+        });
+        html += '  </div>';
+        html += '  <div class="app-tip">' + ICONS.info + '<span>' + esc(state.platform === "windows" ? tr("appTipDesktop") : tr("appTipMobile")) + '</span></div>';
+        html += '</div>';
+
+        // 2) Links Tab
+        var subRows = [
+          { tag: "SUB", cls: "tag-green", title: tr("subMainLabel"), url: subUrl, dl: false }
+        ];
+        if (d.subJsonUrl) subRows.push({ tag: "JSON", cls: "tag-purple", title: tr("subJsonLabel"), url: d.subJsonUrl, dl: true });
+        if (d.subClashUrl) subRows.push({ tag: "CLASH", cls: "tag-amber", title: tr("subClashLabel"), url: d.subClashUrl, dl: true });
+
+        html += '<div class="tab-panel ' + (state.tab === "links" ? "is-active" : "") + '" data-panel="links">';
+        html += '  <div class="links-layout">';
+        html += '    <div class="rows-stack">';
+        subRows.forEach(function (r) {
+          var rawUrl = r.url + (r.url.indexOf("?") >= 0 ? "&" : "?") + "view=raw";
+          html += '      <div class="link-row">';
+          html += '        <span class="tag ' + r.cls + '">' + esc(r.tag) + '</span>';
+          html += '        <div class="link-main"><a class="link-title" href="' + esc(r.url) + '" target="_blank" rel="noopener noreferrer">' + esc(r.title) + '</a><span class="link-sub" dir="ltr" title="' + esc(r.url) + '">' + esc(r.url) + '</span></div>';
+          html += '        <div class="link-actions">';
+          if (r.dl) {
+            html += '          <a class="btn btn-icon btn-sm" href="' + esc(rawUrl) + '" target="_blank" rel="noopener noreferrer" title="' + esc(tr("downloadBtn")) + '" aria-label="' + esc(tr("downloadBtn")) + '">' + ICONS.download + '</a>';
+          }
+          html += '          <button type="button" class="btn btn-icon btn-sm" data-copy="' + esc(r.url) + '" title="' + esc(tr("copyBtn")) + '" aria-label="' + esc(tr("copyBtn")) + '">' + ICONS.copy + '</button>';
+          html += '          <button type="button" class="btn btn-icon btn-sm" data-qr="' + esc(r.url) + '" data-qr-title="' + esc(r.title) + '" title="' + esc(tr("qrBtn")) + '" aria-label="' + esc(tr("qrBtn")) + '">' + ICONS.qr + '</button>';
+          html += '        </div>';
+          html += '      </div>';
+        });
+        html += '    </div>';
+        html += '    <div class="qr-inline-card">';
+        html += '      <div class="qr-frame">' + (QR.toSvg(subUrl, 132) || "") + '</div>';
+        html += '      <div>';
+        html += '        <div style="font-weight:750;font-size:0.95rem;margin-bottom:4px">' + esc(tr("scanTitle")) + '</div>';
+        html += '        <div style="font-size:0.82rem;color:var(--text-secondary)">' + esc(tr("scanHint")) + '</div>';
+        html += '      </div>';
+        html += '    </div>';
+        html += '  </div>';
+        html += '</div>';
+
+        // 3) Configs Tab
+        if (links.length > 0) {
+          var q = state.search.trim().toLowerCase();
+          var parsed = links.map(function (lnk, idx) {
+            var p = parseLink(lnk, idx);
+            p.raw = lnk;
+            return p;
+          }).filter(function (item) {
+            if (!q) return true;
+            return (item.remark + " " + item.proto + " " + item.net + " " + item.sec + " " + item.port).toLowerCase().indexOf(q) >= 0;
+          });
+
+          html += '<div class="tab-panel ' + (state.tab === "configs" ? "is-active" : "") + '" data-panel="configs">';
+          html += '  <div class="configs-toolbar">';
+          if (links.length > 4) {
+            html += '    <div class="search-box">' + ICONS.search + '<input type="search" class="search-input" id="cfg-search" value="' + esc(state.search) + '" placeholder="' + esc(tr("searchConfigs")) + '"/></div>';
+          }
+          html += '    <button type="button" class="btn btn-sm" id="btn-copy-all">' + ICONS.copy + '<span>' + esc(tr("copyAll")) + '</span></button>';
+          html += '  </div>';
+          if (parsed.length === 0) {
+            html += '  <div class="empty-state">' + esc(tr("noConfigsMatch")) + '</div>';
+          } else {
+            html += '  <div class="rows-stack" id="configs-list">';
+            parsed.forEach(function (item) {
+              html += renderConfigRow(item);
+            });
+            html += '  </div>';
+          }
+          html += '</div>';
+        }
+
+        html += '</section>';
+
+        /* ---- Footer ---- */
+        html += '<footer class="footer">';
+        html += '  <span class="footer-item"><span class="live-dot" style="background:var(--accent)"></span>' + esc(tr("panelUpdated")) + '</span>';
+        if (Number(d.subUpdates || 0) > 0) {
+          html += '  <span class="footer-item">' + esc(tr("autoUpdate")) + ': ' + esc(tr("everyHours", { h: Number(d.subUpdates) })) + '</span>';
+        }
+        html += '</footer>';
+
+        var app = document.getElementById("app");
+        var activeElId = document.activeElement ? document.activeElement.id : "";
+        var selStart = activeElId === "cfg-search" ? document.activeElement.selectionStart : null;
+        app.innerHTML = html;
+        if (activeElId === "cfg-search") {
+          var searchEl = document.getElementById("cfg-search");
+          if (searchEl) {
+            searchEl.focus();
+            if (selStart != null && searchEl.setSelectionRange) searchEl.setSelectionRange(selStart, selStart);
+          }
+        }
+        bindEvents();
+      }
+
+      function renderConfigRow(item) {
+        var row = '<div class="link-row">';
+        row += '  <div class="tag-group">';
+        row += '    <span class="tag ' + protoTagClass(item.proto) + '">' + esc(item.proto) + '</span>';
+        if (item.net) row += '    <span class="tag tag-amber">' + esc(item.net) + '</span>';
+        if (item.sec) row += '    <span class="tag tag-green">' + esc(item.sec) + '</span>';
+        row += '  </div>';
+        row += '  <div class="link-main">';
+        row += '    <span class="link-title" dir="auto" title="' + esc(item.remark) + '">' + esc(item.remark) + '</span>';
+        if (item.port) row += '    <span class="link-sub" dir="ltr">Port: ' + esc(item.port) + '</span>';
+        row += '  </div>';
+        row += '  <div class="link-actions">';
+        row += '    <button type="button" class="btn btn-icon btn-sm" data-copy="' + esc(item.raw) + '" title="' + esc(tr("copyBtn")) + '" aria-label="' + esc(tr("copyBtn")) + '">' + ICONS.copy + '</button>';
+        if (item.canQr) {
+          row += '    <button type="button" class="btn btn-icon btn-sm" data-qr="' + esc(item.raw) + '" data-qr-title="' + esc(item.remark) + '" title="' + esc(tr("qrBtn")) + '" aria-label="' + esc(tr("qrBtn")) + '">' + ICONS.qr + '</button>';
+        }
+        row += '  </div>';
+        row += '</div>';
+        return row;
+      }
+
+      function bindEvents() {
+        var subUrl = state.data.subUrl || window.location.href.split("?")[0];
+        var links = Array.isArray(state.data.links) ? state.data.links : [];
+
+        var elCopyMain = document.getElementById("btn-copy-main");
+        if (elCopyMain) elCopyMain.onclick = function () { copyText(subUrl); };
+
+        var elQrMain = document.getElementById("btn-qr-main");
+        if (elQrMain) elQrMain.onclick = function () { openQrModal(state.data.subTitle || tr("subMainLabel"), subUrl); };
+
+        var elCopySid = document.getElementById("btn-copy-sid");
+        if (elCopySid) elCopySid.onclick = function () { copyText(state.data.sId, tr("idCopied")); };
+
+        var elRefresh = document.getElementById("btn-refresh");
+        if (elRefresh) elRefresh.onclick = function () { fetchLiveData(true); };
+
+        var elTheme = document.getElementById("btn-theme");
+        if (elTheme) {
+          elTheme.onclick = function () {
+            state.theme = state.theme === "dark" ? "light" : "dark";
+            try { localStorage.setItem(STORAGE_THEME, state.theme); } catch (e) {}
+            render();
+          };
+        }
+
+        var elLang = document.getElementById("btn-lang");
+        if (elLang) {
+          elLang.onclick = function () {
+            state.lang = state.lang === "fa" ? "en" : "fa";
+            try { localStorage.setItem(STORAGE_LANG, state.lang); } catch (e) {}
+            render();
+          };
+        }
+
+        document.querySelectorAll("[data-tab]").forEach(function (btn) {
+          btn.onclick = function () {
+            state.tab = btn.getAttribute("data-tab");
+            render();
+          };
+        });
+
+        document.querySelectorAll("[data-plat]").forEach(function (btn) {
+          btn.onclick = function () {
+            state.platform = btn.getAttribute("data-plat");
+            render();
+          };
+        });
+
+        document.querySelectorAll("[data-copy]").forEach(function (btn) {
+          btn.onclick = function () {
+            copyText(btn.getAttribute("data-copy"));
+          };
+        });
+
+        document.querySelectorAll("[data-qr]").forEach(function (btn) {
+          btn.onclick = function () {
+            openQrModal(btn.getAttribute("data-qr-title"), btn.getAttribute("data-qr"));
+          };
+        });
+
+        var elCopyAll = document.getElementById("btn-copy-all");
+        if (elCopyAll) {
+          elCopyAll.onclick = function () { copyText(links.join("\n")); };
+        }
+
+        var elSearch = document.getElementById("cfg-search");
+        if (elSearch) {
+          elSearch.oninput = function () {
+            state.search = elSearch.value;
+            var listEl = document.getElementById("configs-list");
+            if (listEl) {
+              var q = state.search.trim().toLowerCase();
+              var filtered = links.map(function (lnk, idx) {
+                var p = parseLink(lnk, idx);
+                p.raw = lnk;
+                return p;
+              }).filter(function (item) {
+                if (!q) return true;
+                return (item.remark + " " + item.proto + " " + item.net + " " + item.sec + " " + item.port).toLowerCase().indexOf(q) >= 0;
+              });
+              listEl.innerHTML = filtered.length
+                ? filtered.map(renderConfigRow).join("")
+                : '<div class="empty-state">' + esc(tr("noConfigsMatch")) + '</div>';
+              listEl.querySelectorAll("[data-copy]").forEach(function (b) {
+                b.onclick = function () { copyText(b.getAttribute("data-copy")); };
+              });
+              listEl.querySelectorAll("[data-qr]").forEach(function (b) {
+                b.onclick = function () { openQrModal(b.getAttribute("data-qr-title"), b.getAttribute("data-qr")); };
+              });
+            }
+          };
+        }
+      }
+
+      // Modal static listeners
+      var modalBackdrop = document.getElementById("qr-modal");
+      var modalClose = document.getElementById("qr-modal-close");
+      var modalCopy = document.getElementById("qr-modal-copy");
+      if (modalClose) modalClose.onclick = closeQrModal;
+      if (modalBackdrop) {
+        modalBackdrop.onclick = function (e) {
+          if (e.target === modalBackdrop) closeQrModal();
+        };
+      }
+      if (modalCopy) modalCopy.onclick = function () { copyText(modalUrlValue); };
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeQrModal();
+      });
+
+      // Initial render + live status sync
+      render();
+      fetchLiveData(false);
+      setInterval(function () {
+        if (document.visibilityState === "visible") fetchLiveData(false);
+      }, 15000);
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search);
+      var plat = q.get("plat"), tab = q.get("tab");
+      if (plat) { var p = document.querySelector('[data-plat="' + plat + '"]'); if (p) p.click(); }
+      if (tab) { var t = document.querySelector('[data-tab="' + tab + '"]'); if (t) t.click(); }
+    })();
+  </script>
+</body>
+</html>

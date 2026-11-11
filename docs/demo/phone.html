@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Phone frame</title>
+<!-- Headless Chrome won't open a window under 500px wide, so phone screenshots load the demo in a 390px iframe. -->
+<style>html, body { margin: 0; background: #000; } iframe { display: block; width: 390px; height: 100vh; border: 0; }</style>
+</head>
+<body>
+<script>
+  var f = document.createElement("iframe");
+  f.src = "./" + location.search;
+  document.body.appendChild(f);
+</script>
+</body>
+</html>

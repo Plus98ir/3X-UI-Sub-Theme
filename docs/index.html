@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3X-UI Sub Theme</title>
+<meta name="description" content="A modern one-file subscription page for 3x-ui panels: usage ring, live status, one-tap app import, QR codes. Persian + English, dark + light.">
+<meta property="og:title" content="3X-UI Sub Theme">
+<meta property="og:description" content="A modern one-file subscription page for 3x-ui panels. Persian + English, dark + light, mobile-ready.">
+<meta property="og:image" content="https://corenetbase.com/3X-UI-Sub-Theme/img/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#070B14">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #070B14; --card: #0F172A; --line: rgba(148,163,184,.16);
+    --text: #F1F5F9; --muted: #94A3B8; --cyan: #22D3EE; --green: #34D399;
+    --grad: linear-gradient(135deg, #06B6D4, #10B981);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text); line-height: 1.7;
+    font-family: 'Vazirmatn', 'Inter', 'Segoe UI', sans-serif;
+    background-image:
+      radial-gradient(900px 500px at 0% 0%, rgba(6,182,212,.14), transparent 70%),
+      radial-gradient(900px 600px at 100% 30%, rgba(16,185,129,.12), transparent 70%);
+    background-repeat: no-repeat;
+  }
+  html[lang="en"] body { font-family: 'Inter', 'Segoe UI', sans-serif; }
+  a { color: var(--cyan); }
+  header {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 18px 32px; border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; }
+  .brand img { width: 32px; height: 32px; }
+  .lang { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .lang button { background: none; border: 0; color: var(--muted); padding: 6px 14px; cursor: pointer; font: inherit; font-size: 14px; }
+  .lang button.on { background: var(--grad); color: #fff; }
+  main { width: 100%; padding: 24px 32px; }
+  .hero {
+    display: grid; grid-template-columns: minmax(0, 36fr) minmax(0, 64fr); gap: 40px;
+    align-items: center; padding: 32px 0 48px;
+  }
+  h1 { font-size: clamp(36px, 4vw, 64px); line-height: 1.15; font-weight: 800; }
+  h1 span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead { color: var(--muted); font-size: clamp(16px, 1.3vw, 21px); margin: 18px 0 26px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px;
+    font-weight: 600; text-decoration: none; color: #fff; border: 1px solid var(--line);
+    background: rgba(255,255,255,.05);
+  }
+  .btn.primary { background: var(--grad); border: 0; }
+  .btn small { opacity: .75; font-weight: 400; }
+  .shot { width: 100%; height: auto; border-radius: 14px; box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px var(--line); display: block; }
+  h2 { font-size: clamp(22px, 2vw, 30px); margin: 40px 0 18px; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .card h3 { font-size: 17px; margin-bottom: 6px; }
+  .card p { color: var(--muted); font-size: 15px; }
+  .gallery { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 190px 190px; gap: 16px; align-items: start; }
+  .gallery img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); display: block; }
+  .demo { width: 100%; height: 860px; border: 1px solid var(--line); border-radius: 14px; background: #070B14; display: block; }
+  ol { padding-inline-start: 22px; color: var(--muted); }
+  ol li { margin: 8px 0; }
+  code { background: rgba(255,255,255,.07); border-radius: 6px; padding: 1px 7px; font-family: Consolas, monospace; font-size: .92em; direction: ltr; unicode-bidi: embed; }
+  pre {
+    direction: ltr; text-align: left; background: #020617; border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 16px; overflow-x: auto; margin: 10px 0; font-family: Consolas, monospace; font-size: 14px; color: #E2E8F0; position: relative;
+  }
+  .copy { position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,.08); color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 3px 10px; cursor: pointer; font: 12px Inter, sans-serif; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .note { border-inline-start: 3px solid var(--cyan); padding: 10px 16px; background: rgba(6,182,212,.08); border-radius: 8px; color: var(--muted); margin-top: 16px; }
+  footer { padding: 28px 32px 40px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); margin-top: 48px; }
+  [data-en] { display: none; }
+  html[lang="en"] [data-fa] { display: none; }
+  html[lang="en"] [data-en] { display: revert; }
+  @media (max-width: 1100px) { .gallery, .grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) {
+    header, main, footer { padding-left: 16px; padding-right: 16px; }
+    .hero, .two { grid-template-columns: 1fr; }
+    .demo { height: 720px; }
+  }
+</style>
+<!-- GoatCounter: privacy-friendly visit stats, counted per project -->
+<script>window.goatcounter={path:function(){return "/"+location.pathname.split("/")[1]+"/"}};</script>
+<script data-goatcounter="https://plus98.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="img/logo.svg" alt="">3X-UI Sub Theme</div>
+  <div class="lang" role="group" aria-label="Language">
+    <button type="button" data-lang="fa">فارسی</button>
+    <button type="button" data-lang="en">English</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <h1 data-fa>صفحه‌ی اشتراک <span>مدرن</span> برای 3x-ui</h1>
+      <h1 data-en>A <span>modern</span> subscription page for 3x-ui</h1>
+      <p class="lead" data-fa>یک فایل HTML که جای صفحه‌ی اشتراک پیش‌فرض پنل را می‌گیرد: حلقه‌ی مصرف، وضعیت زنده، افزودن با یک لمس به برنامه‌های VPN و کد QR. فارسی و انگلیسی، تیره و روشن، رایگان و متن‌باز.</p>
+      <p class="lead" data-en>One HTML file that replaces the panel's default subscription page: usage ring, live status, one-tap import into VPN apps, QR codes. Persian + English, dark + light, free and open source.</p>
+      <div class="btns">
+        <a class="btn primary" href="https://github.com/Plus98ir/3X-UI-Sub-Theme/releases/latest/download/sub.html">
+          <span data-fa>دانلود sub.html</span><span data-en>Download sub.html</span> <small dir="ltr">(90 KB)</small>
+        </a>
+        <a class="btn" href="#demo"><span data-fa>دموی زنده</span><span data-en>Live demo</span></a>
+        <a class="btn" href="https://github.com/Plus98ir/3X-UI-Sub-Theme">GitHub</a>
+      </div>
+    </div>
+    <img class="shot" src="img/cover.png" alt="3X-UI Sub Theme" width="1280" height="640">
+  </section>
+
+  <h2 data-fa>ویژگی‌ها</h2>
+  <h2 data-en>Features</h2>
+  <div class="grid">
+    <div class="card">
+      <h3 data-fa>مصرف در یک نگاه</h3><h3 data-en>Usage at a glance</h3>
+      <p data-fa>حلقه‌ی درصد مصرف، حجم باقیمانده، دانلود و آپلود، تاریخ انقضا، روزهای مانده و آخرین اتصال.</p>
+      <p data-en>Used-percentage ring, remaining traffic, download and upload, expiry date, days left and last online.</p>
+    </div>
+    <div class="card">
+      <h3 data-fa>وضعیت زنده</h3><h3 data-en>Live status</h3>
+      <p data-fa>تا وقتی صفحه باز است هر ۱۵ ثانیه از خود پنل تازه می‌شود؛ نشان آنلاین و تعداد دستگاه‌ها (HWID).</p>
+      <p data-en>Refreshes from the panel every 15 seconds while open; online badge and device slots (HWID).</p>
+    </div>
+    <div class="card">
+      <h3 data-fa>افزودن با یک لمس</h3><h3 data-en>One-tap import</h3>
+      <p data-fa>v2rayNG، V2Box، Happ، Sing-box، V2RayTun، Incy، Streisand، Shadowrocket، Clash و v2rayN؛ سیستم‌عامل خودکار انتخاب می‌شود.</p>
+      <p data-en>v2rayNG, V2Box, Happ, Sing-box, V2RayTun, Incy, Streisand, Shadowrocket, Clash and v2rayN; the platform is picked automatically.</p>
+    </div>
+    <div class="card">
+      <h3 data-fa>کانفیگ‌ها و QR</h3><h3 data-en>Configs and QR</h3>
+      <p data-fa>همه‌ی کانفیگ‌ها با برچسب پروتکل، جستجو، کپی و QR. لینک اصلی، JSON و Clash.</p>
+      <p data-en>Every config with protocol tags, search, copy and QR. Main, JSON and Clash links.</p>
+    </div>
+    <div class="card">
+      <h3 data-fa>بدون درخواست بیرونی</h3><h3 data-en>No external requests</h3>
+      <p data-fa>بدون CDN و فونت آنلاین؛ QR داخل خود صفحه ساخته می‌شود. روی شبکه‌های فیلترشده هم کار می‌کند.</p>
+      <p data-en>No CDN, no web fonts; QR codes are made in the page. Works on filtered networks too.</p>
+    </div>
+    <div class="card">
+      <h3 data-fa>دست به پنل نمی‌زند</h3><h3 data-en>Panel stays untouched</h3>
+      <p data-fa>از تنظیم داخلی «پوشه قالب صفحه اشتراک» خود 3x-ui استفاده می‌کند؛ برنامه‌های VPN همان اشتراک معمولی را می‌گیرند.</p>
+      <p data-en>Uses 3x-ui's own "Sub Theme Directory" setting; VPN apps still get the normal subscription.</p>
+    </div>
+  </div>
+
+  <h2 data-fa>تصاویر</h2>
+  <h2 data-en>Screenshots</h2>
+  <div class="gallery">
+    <img src="img/desktop-dark-fa.png" alt="Desktop, dark, Persian" loading="lazy">
+    <img src="img/configs-dark-en.png" alt="Configs tab" loading="lazy">
+    <img src="img/mobile-dark-fa.png" alt="Mobile, dark" loading="lazy">
+    <img src="img/mobile-light-en.png" alt="Mobile, light" loading="lazy">
+  </div>
+
+  <h2 id="demo" data-fa>دموی زنده (داده‌ی ساختگی)</h2>
+  <h2 data-en>Live demo (fake data)</h2>
+  <iframe class="demo" id="demo-frame" src="demo/" title="Live demo" loading="lazy"></iframe>
+  <p class="note" data-fa>دمو را <a href="demo/?lang=fa">در صفحه‌ی کامل</a> هم می‌توانید باز کنید. دکمه‌ها در دمو به سروری وصل نیستند.</p>
+  <p class="note" data-en>You can also open the demo <a href="demo/?lang=en">full page</a>. The demo's buttons are not connected to a server.</p>
+
+  <h2 data-fa>نصب</h2>
+  <h2 data-en>Install</h2>
+  <div class="two">
+    <div class="card">
+      <h3 data-fa>۱. فایل را روی سرور بگذارید</h3><h3 data-en>1. Put the file on the server</h3>
+      <pre><button class="copy" type="button">Copy</button>mkdir -p /etc/x-ui/sub-theme
+curl -fsSL -o /etc/x-ui/sub-theme/sub.html https://github.com/Plus98ir/3X-UI-Sub-Theme/releases/latest/download/sub.html</pre>
+      <p data-fa>اگر GitHub روی سرور باز نمی‌شود، فایل را روی کامپیوتر دانلود کنید و با <code>scp sub.html root@SERVER:/etc/x-ui/sub-theme/</code> آپلود کنید.</p>
+      <p data-en>If GitHub is blocked on the server, download the file on your PC and upload it with <code>scp sub.html root@SERVER:/etc/x-ui/sub-theme/</code>.</p>
+    </div>
+    <div class="card">
+      <h3 data-fa>۲. در پنل</h3><h3 data-en>2. In the panel</h3>
+      <ol data-fa>
+        <li>3x-ui نسخه‌ی 3.10.0 یا جدیدتر، با سرویس اشتراک روشن.</li>
+        <li><b>تنظیمات ← اشتراک ← پوشه قالب صفحه اشتراک</b> را <code>/etc/x-ui/sub-theme/</code> بگذارید و ذخیره کنید.</li>
+        <li>لینک اشتراک یک کاربر را در مرورگر باز کنید.</li>
+        <li>داکر: فایل را در <code>./db/sub-theme/sub.html</code> روی سرور بگذارید (volume معمول <code>./db/:/etc/x-ui/</code>).</li>
+      </ol>
+      <ol data-en>
+        <li>3x-ui v3.10.0 or newer, with the subscription service on.</li>
+        <li>Set <b>Settings → Subscription → Sub Theme Directory</b> to <code>/etc/x-ui/sub-theme/</code> and save.</li>
+        <li>Open any client's subscription link in a browser.</li>
+        <li>Docker: put the file in <code>./db/sub-theme/sub.html</code> on the host (usual <code>./db/:/etc/x-ui/</code> volume).</li>
+      </ol>
+    </div>
+  </div>
+  <p class="note" data-fa>این قالب غیررسمی است و جزو پروژه‌ی 3x-ui نیست. برای برگشت به صفحه‌ی پیش‌فرض، همان تنظیم را خالی کنید.</p>
+  <p class="note" data-en>This is an unofficial template, not part of the 3x-ui project. Clear the same setting to go back to the default page.</p>
+</main>
+
+<footer>
+  <span data-fa>ساخته‌شده توسط <a href="https://corenetbase.com/">PLUS98IR</a> · متن‌باز با مجوز MIT</span>
+  <span data-en>Made by <a href="https://corenetbase.com/">PLUS98IR</a> · Open source, MIT license</span>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement, frame = document.getElementById('demo-frame');
+    function set(lang) {
+      root.lang = lang;
+      root.dir = lang === 'fa' ? 'rtl' : 'ltr';
+      document.querySelectorAll('[data-lang]').forEach(function (b) { b.classList.toggle('on', b.dataset.lang === lang); });
+      try { localStorage.setItem('lang', lang); } catch (e) {}
+      frame.src = 'demo/?lang=' + lang;
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('lang'); } catch (e) {}
+    var q = new URLSearchParams(location.search).get('lang');
+    set(q || saved || ((navigator.language || '').indexOf('fa') === 0 ? 'fa' : 'en'));
+    document.querySelectorAll('[data-lang]').forEach(function (b) { b.addEventListener('click', function () { set(b.dataset.lang); }); });
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var text = Array.prototype.filter.call(b.parentNode.childNodes, function (n) { return n !== b; })
+          .map(function (n) { return n.textContent; }).join('');
+        navigator.clipboard.writeText(text).then(function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1500); });
+      });
+    });
+  })();
+</script>
+<script src="https://corenetbase.com/support.js" defer></script>
+</body>
+</html>
