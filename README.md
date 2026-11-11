@@ -58,10 +58,10 @@ Needs **3x-ui v3.10.0 or newer** with the subscription service turned on.
 
 ```bash
 mkdir -p /etc/x-ui/sub-theme
-curl -fsSL -o /etc/x-ui/sub-theme/sub.html https://github.com/Plus98ir/3X-UI-Sub-Theme/releases/latest/download/sub.html
+curl -fsSL -o /etc/x-ui/sub-theme/sub.html https://raw.githubusercontent.com/Plus98ir/3X-UI-Sub-Theme/main/sub.html
 ```
 
-If GitHub is blocked on your server, [download `sub.html`](https://github.com/Plus98ir/3X-UI-Sub-Theme/releases/latest/download/sub.html) on your PC and upload it:
+If GitHub is blocked on your server, [download `sub.html`](https://raw.githubusercontent.com/Plus98ir/3X-UI-Sub-Theme/main/sub.html) on your PC and upload it:
 
 ```bash
 scp sub.html root@YOUR_SERVER:/etc/x-ui/sub-theme/sub.html

@@ -70,12 +70,12 @@ TA53aFyGNfSAcrCaJi9QmA9x5W47nPJcf7
 
 ```bash
 mkdir -p /etc/x-ui/sub-theme
-curl -fsSL -o /etc/x-ui/sub-theme/sub.html https://github.com/Plus98ir/3X-UI-Sub-Theme/releases/latest/download/sub.html
+curl -fsSL -o /etc/x-ui/sub-theme/sub.html https://raw.githubusercontent.com/Plus98ir/3X-UI-Sub-Theme/main/sub.html
 ```
 
 <div dir="rtl">
 
-اگر GitHub روی سرورتان باز نمی‌شود، [`sub.html`](https://github.com/Plus98ir/3X-UI-Sub-Theme/releases/latest/download/sub.html) را روی کامپیوتر دانلود کنید و آپلود کنید:
+اگر GitHub روی سرورتان باز نمی‌شود، [`sub.html`](https://raw.githubusercontent.com/Plus98ir/3X-UI-Sub-Theme/main/sub.html) را روی کامپیوتر دانلود کنید و آپلود کنید:
 
 </div>
 
