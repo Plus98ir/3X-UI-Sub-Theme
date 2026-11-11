@@ -36,7 +36,7 @@ TA53aFyGNfSAcrCaJi9QmA9x5W47nPJcf7
 
 - **Usage at a glance:** ring with the used percentage, remaining traffic, download / upload / total, expiry date, days left, last online.
 - **Live status:** an online badge and the numbers refresh every 15 seconds while the page is open (from the panel's own `?format=info` and `/hwid-status` endpoints), plus a manual refresh button.
-- **One-tap import** for Android, iOS, Windows and macOS apps: v2rayNG, V2Box, Happ, Sing-box, V2RayTun, Incy, Streisand, Shadowrocket, Clash / Mihomo, v2rayN (copy). The visitor's platform is picked automatically.
+- **One-tap import** for Android, iOS, Windows and macOS apps: [Saila](https://corenetbase.com/Saila/) (featured, with a download button), v2rayNG, V2Box, Happ, Sing-box, V2RayTun, Incy, Streisand, Shadowrocket, Clash / Mihomo, v2rayN (copy). The visitor's platform is picked automatically.
 - **Subscription links:** main, Xray JSON and Clash links with copy, download and QR buttons.
 - **Configs tab:** every config with protocol / transport / security tags, search, copy and QR. Copy all in one click.
 - **Device slots** when HWID limits are on.

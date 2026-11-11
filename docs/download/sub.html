@@ -751,6 +751,67 @@
       text-overflow: ellipsis;
     }
 
+    /* Featured (own) app: full-row card with real logo */
+    .app-card.is-featured {
+      grid-column: 1 / -1;
+      padding: 15px 16px;
+      border-color: rgba(229, 91, 45, 0.45);
+      background: linear-gradient(135deg, rgba(229, 91, 45, 0.12), rgba(229, 91, 45, 0.02) 60%), var(--bg-subtle);
+    }
+
+    .app-card.is-featured:hover {
+      border-color: rgba(229, 91, 45, 0.7);
+    }
+
+    .app-card.is-featured .app-ico {
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      background: #ffffff;
+      box-shadow: 0 6px 18px -6px rgba(229, 91, 45, 0.55);
+    }
+
+    .app-card.is-featured .app-ico svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .app-card.is-featured .app-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+    }
+
+    .app-card.is-featured .app-desc {
+      white-space: normal;
+    }
+
+    .app-badge {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: rgba(229, 91, 45, 0.16);
+      color: #f97316;
+    }
+
+    [data-theme="light"] .app-badge {
+      color: #c2410c;
+    }
+
+    .app-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .app-actions .btn-icon {
+      width: 32px;
+      height: 32px;
+    }
+
     .app-tip {
       margin-top: 14px;
       padding: 11px 14px;
@@ -1108,6 +1169,29 @@
       .shell {
         padding: 18px 14px 44px;
         gap: 14px;
+      }
+
+      .app-card.is-featured {
+        flex-wrap: wrap;
+      }
+
+      .app-card.is-featured .app-meta {
+        flex: 1 1 0;
+      }
+
+      .app-card.is-featured .app-actions {
+        width: 100%;
+      }
+
+      .app-card.is-featured .app-actions .btn-primary {
+        flex: 1;
+        padding-top: 9px;
+        padding-bottom: 9px;
+      }
+
+      .app-card.is-featured .app-actions .btn-icon {
+        width: 38px;
+        height: 38px;
       }
 
       .card {
@@ -1585,7 +1669,7 @@
           subJsonLabel: "پروفایل Xray JSON",
           subClashLabel: "پروفایل Clash / Mihomo",
           appTipMobile: "اگر اپلیکیشن روی گوشی نصب باشد، با زدن «افزودن خودکار» اشتراک مستقیم وارد برنامه می‌شود.",
-          appTipDesktop: "در ویندوز برای v2rayN کافیست لینک اشتراک را کپی کرده و در برنامه Ctrl+V بزنید، یا از Happ / Clash Verge استفاده کنید.",
+          appTipDesktop: "در ویندوز برای Saila یا v2rayN کافیست لینک اشتراک را کپی کرده و در برنامه Ctrl+V بزنید، یا از Happ / Clash Verge استفاده کنید.",
           justNow: "هم‌اکنون",
           minsAgo: "{n} دقیقه پیش",
           hoursAgo: "{n} ساعت پیش",
@@ -1597,6 +1681,9 @@
           platMac: "مک (macOS)",
           appDescAuto: "افزودن با یک کلیک",
           appDescCopy: "کپی لینک و Paste در برنامه",
+          appDescSaila: "اپ اختصاصی ما — خودش سرور سالم را پیدا می‌کند و در صورت قطعی خودکار عوض می‌کند",
+          appDescSailaWin: "اپ اختصاصی ما — لینک را کپی کنید و در Saila کلید Ctrl+V را بزنید",
+          appBadgeOurs: "پیشنهاد ما",
           idCopied: "شناسه اشتراک کپی شد",
           close: "بستن",
           panelUpdated: "وضعیت لحظه‌ای فعال"
@@ -1647,7 +1734,7 @@
           subJsonLabel: "Xray JSON Profile",
           subClashLabel: "Clash / Mihomo Profile",
           appTipMobile: "Tap Import to open your installed VPN app directly with this subscription.",
-          appTipDesktop: "On Windows v2rayN, copy the subscription link and press Ctrl+V, or use Happ / Clash Verge.",
+          appTipDesktop: "On Windows, copy the subscription link and press Ctrl+V in Saila or v2rayN, or use Happ / Clash Verge.",
           justNow: "Just now",
           minsAgo: "{n}m ago",
           hoursAgo: "{n}h ago",
@@ -1659,6 +1746,9 @@
           platMac: "macOS",
           appDescAuto: "One-tap profile import",
           appDescCopy: "Copy link & paste in app",
+          appDescSaila: "Our own app — finds a working server and switches automatically when one drops",
+          appDescSailaWin: "Our own app — copy the link and press Ctrl+V in Saila",
+          appBadgeOurs: "Recommended",
           idCopied: "Subscription ID copied",
           close: "Close",
           panelUpdated: "Live telemetry active"
@@ -1863,9 +1953,14 @@
         var encSub = encodeURIComponent(subUrl);
         var encName = encodeURIComponent(title);
         var rocketSource = subUrl + (subUrl.indexOf("?") >= 0 ? "&" : "?") + "flag=shadowrocket";
+        var sailaPage = "https://corenetbase.com/Saila/";
+        var sailaWinZip = "https://github.com/Plus98ir/Saila/releases/latest/download/Saila-windows-64.zip";
+        // Saila shares v2rayNG's scheme; package= pins it, and the fallback opens the download page if not installed.
+        var sailaIntent = "intent://install-sub?url=" + encSub + "#Intent;scheme=v2rayng;package=ir.plus98.saila;S.browser_fallback_url=" + encodeURIComponent(sailaPage) + ";end";
 
         var list = {
           android: [
+            { id: "saila", name: "Saila", logo: "saila", featured: true, url: sailaIntent, dlUrl: sailaPage, descKey: "appDescSaila" },
             { id: "v2rayng", name: "v2rayNG", color: "#0ea5e9", url: "v2rayng://install-config?url=" + encSub, descKey: "appDescAuto" },
             { id: "v2box", name: "V2Box", color: "#10b981", url: "v2box://install-sub?url=" + encSub + "&name=" + encodeURIComponent(sId || title), descKey: "appDescAuto" },
             { id: "happ", name: "Happ", color: "#6366f1", url: "happ://add/" + subUrl, descKey: "appDescAuto" },
@@ -1882,6 +1977,7 @@
             { id: "incy", name: "Incy", color: "#ec4899", url: "incy://add/" + subUrl, descKey: "appDescAuto" }
           ],
           windows: [
+            { id: "saila", name: "Saila", logo: "saila", featured: true, copyVal: subUrl, dlUrl: sailaWinZip, descKey: "appDescSailaWin" },
             { id: "happ", name: "Happ Desktop", color: "#6366f1", url: "happ://add/" + subUrl, descKey: "appDescAuto" },
             { id: "singbox", name: "Sing-box", color: "#f59e0b", url: "sing-box://import-remote-profile?url=" + encSub + "#" + encName, descKey: "appDescAuto" },
             { id: "v2rayn", name: "v2rayN", color: "#0ea5e9", copyVal: subUrl, descKey: "appDescCopy" }
@@ -1898,7 +1994,7 @@
           var encClash = encodeURIComponent(clashUrl);
           var clashEntry = { id: "clash", name: "Clash / Mihomo", color: "#a855f7", url: "clash://install-config?url=" + encClash, descKey: "appDescAuto" };
           list.android.push(clashEntry);
-          list.windows.splice(1, 0, clashEntry);
+          list.windows.splice(2, 0, clashEntry);
           list.macos.push(clashEntry);
         }
         return list;
@@ -2015,6 +2111,7 @@
          6. Icons & Rendering
          ========================================================================= */
       var ICONS = {
+        saila: '<svg viewBox="24 16 62 82" aria-hidden="true"><path fill="#16171A" d="M47,29 C39,41 35,54 37,69 L50,67 C46,55 45,42 47,29 Z"/><path fill="#E55B2D" d="M57,22 C70,35 77,52 75,67 L54,69 C57,55 57,39 57,22 Z"/><path fill="#16171A" d="M33,72 C48,69 63,69 79,70 C73,76 64,79 54,79 C45,79 39,77 33,72 Z"/><path fill="#16171A" d="M29,82 C39,78 47,86 57,82 C66,78 72,84 81,80 L81,83.5 C72,87.5 66,81.5 57,85.5 C47,89.5 39,81.5 29,85.5 Z"/><path fill="#16171A" d="M35,88.5 C43,85.5 49,91.5 57,88.5 C64,85.5 69,90 76,87.5 L76,90 C69,92.5 64,88 57,91 C49,94 43,88 35,91 Z"/></svg>',
         copy: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
         qr: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 21h1M21 14v1"/></svg>',
         download: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
@@ -2210,16 +2307,27 @@
           html += '    <button type="button" class="plat-btn ' + (state.platform === pl.id ? "is-active" : "") + '" data-plat="' + pl.id + '">' + esc(pl.label) + '</button>';
         });
         html += '  </div>';
-        html += '  <div class="apps-grid' + (currentApps.length === 4 ? ' is-4col' : '') + '">';
+        var gridApps = currentApps.filter(function (app) { return !app.featured; });
+        html += '  <div class="apps-grid' + (gridApps.length === 4 ? ' is-4col' : '') + '">';
         currentApps.forEach(function (app) {
-          html += '    <div class="app-card">';
-          html += '      <span class="app-ico" style="background:' + app.color + '">' + esc(app.name.charAt(0).toUpperCase()) + '</span>';
-          html += '      <div class="app-meta"><div class="app-name">' + esc(app.name) + '</div><div class="app-desc">' + esc(tr(app.descKey)) + '</div></div>';
+          html += '    <div class="app-card' + (app.featured ? ' is-featured' : '') + '">';
+          if (app.logo) {
+            html += '      <span class="app-ico">' + ICONS[app.logo] + '</span>';
+          } else {
+            html += '      <span class="app-ico" style="background:' + app.color + '">' + esc(app.name.charAt(0).toUpperCase()) + '</span>';
+          }
+          var badge = app.featured ? ' <span class="app-badge">' + esc(tr("appBadgeOurs")) + '</span>' : '';
+          html += '      <div class="app-meta"><div class="app-name">' + esc(app.name) + badge + '</div><div class="app-desc">' + esc(tr(app.descKey)) + '</div></div>';
+          html += '      <div class="app-actions">';
           if (app.copyVal) {
             html += '      <button type="button" class="btn btn-sm btn-primary" data-copy="' + esc(app.copyVal) + '">' + ICONS.copy + '<span>' + esc(tr("copyBtn")) + '</span></button>';
           } else {
             html += '      <a class="btn btn-sm btn-primary" href="' + esc(app.url) + '"><span>' + esc(tr("importBtn")) + '</span>' + ICONS.arrow + '</a>';
           }
+          if (app.dlUrl) {
+            html += '      <a class="btn btn-icon btn-sm" href="' + esc(app.dlUrl) + '" target="_blank" rel="noopener noreferrer" title="' + esc(tr("downloadBtn")) + '" aria-label="' + esc(tr("downloadBtn")) + '">' + ICONS.download + '</a>';
+          }
+          html += '      </div>';
           html += '    </div>';
         });
         html += '  </div>';
