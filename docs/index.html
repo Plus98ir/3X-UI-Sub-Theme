@@ -56,6 +56,9 @@
   }
   .btn.primary { background: var(--grad); border: 0; }
   .btn small { opacity: .75; font-weight: 400; }
+  .alt { color: var(--muted); font-size: 14px; margin-top: 12px; }
+  .alt small { opacity: .75; }
+  #demo { scroll-margin-top: 16px; }
   .shot { width: 100%; height: auto; border-radius: 14px; box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px var(--line); display: block; }
   h2 { font-size: clamp(22px, 2vw, 30px); margin: 40px 0 18px; }
   .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -108,12 +111,13 @@
       <p class="lead" data-fa>یک فایل HTML که جای صفحه‌ی اشتراک پیش‌فرض پنل را می‌گیرد: حلقه‌ی مصرف، وضعیت زنده، افزودن با یک لمس به برنامه‌های VPN و کد QR. فارسی و انگلیسی، تیره و روشن، رایگان و متن‌باز.</p>
       <p class="lead" data-en>One HTML file that replaces the panel's default subscription page: usage ring, live status, one-tap import into VPN apps, QR codes. Persian + English, dark + light, free and open source.</p>
       <div class="btns">
-        <a class="btn primary" href="https://raw.githubusercontent.com/Plus98ir/3X-UI-Sub-Theme/main/sub.html">
-          <span data-fa>دانلود sub.html</span><span data-en>Download sub.html</span> <small dir="ltr">(90 KB)</small>
+        <a class="btn primary" href="download/3X-UI-Sub-Theme.zip" download="3X-UI-Sub-Theme.zip">
+          <span data-fa>دانلود ZIP</span><span data-en>Download ZIP</span> <small dir="ltr">(27 KB)</small>
         </a>
-        <a class="btn" href="#demo"><span data-fa>دموی زنده</span><span data-en>Live demo</span></a>
-        <a class="btn" href="https://github.com/Plus98ir/3X-UI-Sub-Theme">GitHub</a>
+        <a class="btn" id="demo-btn" href="demo/" target="_blank" rel="noopener"><span data-fa>دموی زنده ↗</span><span data-en>Live demo ↗</span></a>
+        <a class="btn" href="https://github.com/Plus98ir/3X-UI-Sub-Theme" target="_blank" rel="noopener">GitHub</a>
       </div>
+      <p class="alt"><span data-fa>یا فقط</span><span data-en>or just</span> <a href="download/sub.html" download="sub.html">sub.html</a> <small dir="ltr">(88 KB)</small></p>
     </div>
     <img class="shot" src="img/cover.png" alt="3X-UI Sub Theme" width="1280" height="640">
   </section>
@@ -162,11 +166,13 @@
     <img src="img/mobile-light-en.png" alt="Mobile, light" loading="lazy">
   </div>
 
-  <h2 id="demo" data-fa>دموی زنده (داده‌ی ساختگی)</h2>
+  <section id="demo">
+  <h2 data-fa>دموی زنده (داده‌ی ساختگی)</h2>
   <h2 data-en>Live demo (fake data)</h2>
   <iframe class="demo" id="demo-frame" src="demo/" title="Live demo" loading="lazy"></iframe>
   <p class="note" data-fa>دمو را <a href="demo/?lang=fa">در صفحه‌ی کامل</a> هم می‌توانید باز کنید. دکمه‌ها در دمو به سروری وصل نیستند.</p>
   <p class="note" data-en>You can also open the demo <a href="demo/?lang=en">full page</a>. The demo's buttons are not connected to a server.</p>
+  </section>
 
   <h2 data-fa>نصب</h2>
   <h2 data-en>Install</h2>
@@ -175,8 +181,8 @@
       <h3 data-fa>۱. فایل را روی سرور بگذارید</h3><h3 data-en>1. Put the file on the server</h3>
       <pre><button class="copy" type="button">Copy</button>mkdir -p /etc/x-ui/sub-theme
 curl -fsSL -o /etc/x-ui/sub-theme/sub.html https://raw.githubusercontent.com/Plus98ir/3X-UI-Sub-Theme/main/sub.html</pre>
-      <p data-fa>اگر GitHub روی سرور باز نمی‌شود، فایل را روی کامپیوتر دانلود کنید و با <code>scp sub.html root@SERVER:/etc/x-ui/sub-theme/</code> آپلود کنید.</p>
-      <p data-en>If GitHub is blocked on the server, download the file on your PC and upload it with <code>scp sub.html root@SERVER:/etc/x-ui/sub-theme/</code>.</p>
+      <p data-fa>اگر GitHub روی سرور باز نمی‌شود، <a href="download/sub.html" download="sub.html">فایل را</a> روی کامپیوتر دانلود کنید و با <code>scp sub.html root@SERVER:/etc/x-ui/sub-theme/</code> آپلود کنید.</p>
+      <p data-en>If GitHub is blocked on the server, <a href="download/sub.html" download="sub.html">download the file</a> on your PC and upload it with <code>scp sub.html root@SERVER:/etc/x-ui/sub-theme/</code>.</p>
     </div>
     <div class="card">
       <h3 data-fa>۲. در پنل</h3><h3 data-en>2. In the panel</h3>
@@ -212,6 +218,7 @@ curl -fsSL -o /etc/x-ui/sub-theme/sub.html https://raw.githubusercontent.com/Plu
       document.querySelectorAll('[data-lang]').forEach(function (b) { b.classList.toggle('on', b.dataset.lang === lang); });
       try { localStorage.setItem('lang', lang); } catch (e) {}
       frame.src = 'demo/?lang=' + lang;
+      document.getElementById('demo-btn').href = 'demo/?lang=' + lang;
     }
     var saved = null;
     try { saved = localStorage.getItem('lang'); } catch (e) {}

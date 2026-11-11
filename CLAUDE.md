@@ -10,7 +10,7 @@ Custom subscription page template for 3x-ui panels. Repo: github.com/Plus98ir/3X
 - No external requests on purpose (Iran: CDNs filtered). Don't add CDN scripts or web fonts to `sub.html`.
 - Demo: `python tools/make_demo.py` fills the template with fake data → `docs/demo/index.html` (fetch is stubbed; `?lang ?theme ?tab ?plat`). Never use real panel data/links in the demo or screenshots.
 - Screenshots: serve `docs/` on 8765, `tools/shoot.ps1` (headless Chrome; phones via `docs/demo/phone.html` iframe because headless Chrome won't go under 500 px wide). Cover: serve repo root on 8766, `tools/shoot-cover.ps1` → `3X-UI-Sub-Theme.png` + `docs/img/cover.png`. Copy screenshots used by the site into `docs/img/`.
-- Downloads/install link to `raw.githubusercontent.com/Plus98ir/3X-UI-Sub-Theme/main/sub.html`, so a push to main is a release. No GitHub Releases yet (creating one was blocked by the auto-mode classifier on 2026-11-11).
+- Site Download buttons use same-origin files `docs/download/3X-UI-Sub-Theme.zip` + `docs/download/sub.html` (cross-origin raw GitHub links open instead of downloading). **After every sub.html change run `python tools/make_zip.py`** and commit them. The server install command still curls `raw.githubusercontent.com/.../main/sub.html`. No GitHub Releases yet (creating one was blocked by the auto-mode classifier on 2026-11-11).
 
 ## Working rules (all projects)
 - Every page full width — no narrow centered container.

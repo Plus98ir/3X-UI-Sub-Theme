@@ -10,7 +10,7 @@ A modern, one-file subscription page for 3x-ui panels: usage ring, live status, 
 
 <img src="3X-UI-Sub-Theme.png" alt="3X-UI Sub Theme" width="860">
 
-**[Live demo](https://corenetbase.com/3X-UI-Sub-Theme/demo/)** · **[Website](https://corenetbase.com/3X-UI-Sub-Theme/)**
+**[Download ZIP](https://corenetbase.com/3X-UI-Sub-Theme/download/3X-UI-Sub-Theme.zip)** · **[Live demo](https://corenetbase.com/3X-UI-Sub-Theme/demo/)** · **[Website](https://corenetbase.com/3X-UI-Sub-Theme/)**
 
 </div>
 
@@ -61,7 +61,7 @@ mkdir -p /etc/x-ui/sub-theme
 curl -fsSL -o /etc/x-ui/sub-theme/sub.html https://raw.githubusercontent.com/Plus98ir/3X-UI-Sub-Theme/main/sub.html
 ```
 
-If GitHub is blocked on your server, [download `sub.html`](https://raw.githubusercontent.com/Plus98ir/3X-UI-Sub-Theme/main/sub.html) on your PC and upload it:
+If GitHub is blocked on your server, download [`sub.html`](https://corenetbase.com/3X-UI-Sub-Theme/download/sub.html) (or the [ZIP](https://corenetbase.com/3X-UI-Sub-Theme/download/3X-UI-Sub-Theme.zip)) on your PC and upload it:
 
 ```bash
 scp sub.html root@YOUR_SERVER:/etc/x-ui/sub-theme/sub.html
@@ -92,6 +92,7 @@ The page is a Go `html/template`: the panel fills `window.__SUB_DATA__ = {{ . }}
 
 ```powershell
 python tools/make_demo.py                 # docs/demo/index.html with fake data
+python tools/make_zip.py                  # docs/download/: ZIP + sub.html for the site
 python -m http.server 8765 --bind 127.0.0.1 --directory docs   # in another window
 .\tools\shoot.ps1                         # screenshots/ (headless Chrome)
 ```

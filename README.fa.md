@@ -14,7 +14,7 @@
 
 <img src="3X-UI-Sub-Theme.png" alt="3X-UI Sub Theme" width="860">
 
-**[دموی زنده](https://corenetbase.com/3X-UI-Sub-Theme/demo/?lang=fa)** · **[وبسایت](https://corenetbase.com/3X-UI-Sub-Theme/)**
+**[دانلود ZIP](https://corenetbase.com/3X-UI-Sub-Theme/download/3X-UI-Sub-Theme.zip)** · **[دموی زنده](https://corenetbase.com/3X-UI-Sub-Theme/demo/?lang=fa)** · **[وبسایت](https://corenetbase.com/3X-UI-Sub-Theme/)**
 
 </div>
 
@@ -75,7 +75,7 @@ curl -fsSL -o /etc/x-ui/sub-theme/sub.html https://raw.githubusercontent.com/Plu
 
 <div dir="rtl">
 
-اگر GitHub روی سرورتان باز نمی‌شود، [`sub.html`](https://raw.githubusercontent.com/Plus98ir/3X-UI-Sub-Theme/main/sub.html) را روی کامپیوتر دانلود کنید و آپلود کنید:
+اگر GitHub روی سرورتان باز نمی‌شود، [`sub.html`](https://corenetbase.com/3X-UI-Sub-Theme/download/sub.html) (یا [ZIP](https://corenetbase.com/3X-UI-Sub-Theme/download/3X-UI-Sub-Theme.zip)) را روی کامپیوتر دانلود کنید و آپلود کنید:
 
 </div>
 
@@ -112,6 +112,7 @@ scp sub.html root@YOUR_SERVER:/etc/x-ui/sub-theme/sub.html
 
 ```powershell
 python tools/make_demo.py                 # docs/demo/index.html با داده‌ی ساختگی
+python tools/make_zip.py                  # docs/download/: فایل ZIP و sub.html برای سایت
 python -m http.server 8765 --bind 127.0.0.1 --directory docs   # در یک پنجره‌ی دیگر
 .\tools\shoot.ps1                         # screenshots/ (Chrome بدون پنجره)
 ```
